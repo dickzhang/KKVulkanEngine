@@ -91,6 +91,8 @@ public:
 	void destroyDrawableSynchronizationObjects();
 	void destroyDrawableUniformBuffer();
 	void destroyTextureResource();
+private:
+	std::string GetFilePath(std::string filepath);
 public:
 #ifdef _WIN32
 #define APP_NAME_STR_LEN 80

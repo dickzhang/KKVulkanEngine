@@ -150,7 +150,6 @@ bool PpmParser::loadImageData(int rowPitch, uint8_t * data)
 
 void * readFile(const char * spvFileName, size_t * fileSize)
 {
-
 	FILE * fp = fopen(spvFileName, "rb");
 	if(!fp)
 	{

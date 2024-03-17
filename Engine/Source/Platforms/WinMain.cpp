@@ -10,6 +10,7 @@ int main(int argc, char ** argv)
 	//准备
 	appObj->prepare();
 	bool isWindowOpen = true;
+	std::cout << argv << std::endl;
 	while(isWindowOpen)
 	{
 		//渲染之前的数据更新

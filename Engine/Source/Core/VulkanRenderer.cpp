@@ -27,6 +27,14 @@ VulkanRenderer::~VulkanRenderer()
 	}
 	drawableList.clear();
 }
+std::string VulkanRenderer::GetFilePath(std::string filepath)
+{
+#ifdef ROOT_PATH
+	return ROOT_PATH + filepath;
+#else
+	return filepath;
+#endif
+}
 
 void VulkanRenderer::initialize()
 {
@@ -38,15 +46,15 @@ void VulkanRenderer::initialize()
 	createFrameBuffer(includeDepth);
 	createShaders();
 
-	const char * filename = "E:/GitHubProject/KKVulkanEngine/Engine/Assets/Textures/LearningVulkan.ktx";
+	auto filename = GetFilePath("Assets/Textures/LearningVulkan.ktx");
 	bool renderOptimalTexture = true;
 	if(renderOptimalTexture)
 	{
-		createTextureOptimal(filename, &texture, VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_STORAGE_BIT);
+		createTextureOptimal(filename.c_str(), &texture, VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_STORAGE_BIT);
 	}
 	else
 	{
-		createTextureLinear(filename, &texture, VK_IMAGE_USAGE_SAMPLED_BIT);
+		createTextureLinear(filename.c_str(), &texture, VK_IMAGE_USAGE_SAMPLED_BIT);
 	}
 	// Set the created texture in the drawable object.
 	for each(VulkanDrawable * drawableObj in drawableList)
@@ -1002,16 +1010,13 @@ void VulkanRenderer::createShaders()
 	size_t sizeVert, sizeFrag;
 
 #ifdef AUTO_COMPILE_GLSL_TO_SPV
-	vertShaderCode = readFile("../../Assets/Shaders/Texture.vert", &sizeVert);
-	fragShaderCode = readFile("../../Assets/Shaders/Texture.frag", &sizeFrag);
+	vertShaderCode = readFile(GetFilePath("Assets/Shaders/Texture.vert").c_str(), &sizeVert);
+	fragShaderCode = readFile(GetFilePath("Assets/Shaders/Texture.frag").c_str(), &sizeFrag);
 
 	shaderObj.buildShader((const char *)vertShaderCode, (const char *)fragShaderCode);
 #else
-	//vertShaderCode = readFile("../../Assets/Shaders/Texture-vert.spv", &sizeVert);
-	//fragShaderCode = readFile("../../Assets/Shaders/Texture-frag.spv", &sizeFrag);
-
-	vertShaderCode = readFile("E:/GitHubProject/KKVulkanEngine/Engine/Assets/Shaders/Texture-vert.spv", &sizeVert);
-	fragShaderCode = readFile("E:/GitHubProject/KKVulkanEngine/Engine/Assets/Shaders/Texture-frag.spv", &sizeFrag);
+	vertShaderCode = readFile(GetFilePath("Assets/Shaders/Texture-vert.spv").c_str(), &sizeVert);
+	fragShaderCode = readFile(GetFilePath("Assets/Shaders/Texture-frag.spv").c_str(), &sizeFrag);
 
 	shaderObj.buildShaderModuleWithSPV((uint32_t *)vertShaderCode, sizeVert, (uint32_t *)fragShaderCode, sizeFrag);
 #endif
