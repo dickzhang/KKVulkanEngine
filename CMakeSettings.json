@@ -1,0 +1,114 @@
+﻿{
+    "configurations": [
+        {
+            "name": "P1D-windows-x64-RelWithDebInfo",
+            "generator": "Ninja",
+            "configurationType": "RelWithDebInfo",
+            "inheritEnvironments": [ "msvc_x64_x64" ],
+            "buildRoot": "${projectDir}\\out\\build\\windows-x64-RelWithDebInfo",
+            "installRoot": "${projectDir}\\out\\install\\windows-x64-RelWithDebInfo",
+            "cmakeCommandArgs": "-DTARGET_OS=windows -DTARGET_ARCH=x64 -DNS_DEBUG_PROJECT=ON",
+            "buildCommandArgs": "-j 8",
+            "ctestCommandArgs": "",
+            "variables": [
+                {
+                    "name": "CMAKE_CXX_FLAGS_RELWITHDEBINFO",
+                    //这里使用/Od关闭优化，同DEBUG模式以获得完整的调试信息，如需提升运行效率可改为/O2
+                    "value": "/MD /Zi /Od /Ob1 /DNDEBUG",
+                    "type": "STRING"
+                }
+            ]
+        },
+        {
+            "name": "P1R-windows-x64-Release",
+            "generator": "Ninja",
+            "configurationType": "Release",
+            "inheritEnvironments": [ "msvc_x64_x64" ],
+            "buildRoot": "${projectDir}\\out\\build\\windows-x64-Release",
+            "installRoot": "${projectDir}\\out\\install\\windows-x64-Release",
+            "cmakeCommandArgs": "-DTARGET_OS=windows -DTARGET_ARCH=x64 -DNS_DEBUG_PROJECT=OFF",
+            "buildCommandArgs": "-j 8",
+            "ctestCommandArgs": ""
+        },
+        {
+            "name": "P2D-linux-x64-RelWithDebInfo",
+            "generator": "Ninja",
+            "configurationType": "RelWithDebInfo",
+            "cmakeExecutable": "cmake",
+            "remoteCopySourcesExclusionList": [ ".vs", ".git", "out", ".svn", "build", ".nsbk", "DebugProjects/UndebugProjects", "DebugProjects/**/Platform/android", "DebugProjects/**/Platform/linux/NSEngineLib", "Docs", "install", "Release", "Tools", "Engine/Bin", "Engine/Release", "EngineSamples", "EnginePackage", "Docs", "FETools", "NibiruStudioPlugin", "NibiruStudioProject", "ProjectInit", "SceneManager", "StudioDemo", "StudioDemoWin", "StudioPreview", "Tools", "Engine/Build", "Engine/Temp", "Engine/install", "Engine/out", "Engine/Libs/**/lib/android*", "Engine/Libs/**/lib/windows*", "Engine/Libs/**/lib/linux-aarch64*", "Engine/Libs/Unused", "Engine/ThirdParty" ],
+            "cmakeCommandArgs": "-DTARGET_OS=linux -DTARGET_ARCH=x64 -DNS_DEBUG_PROJECT=ON",
+            "buildCommandArgs": "-j 8",
+            "ctestCommandArgs": "",
+            "inheritEnvironments": [ "linux_x64" ],
+            "remoteMachineName": "${defaultRemoteMachineName}",
+            "remoteCMakeListsRoot": "$HOME/projects/${projectDirName}/src",
+            "remoteBuildRoot": "$HOME/projects/${projectDirName}/out/build/linux-x64-RelWithDebInfo",
+            "remoteInstallRoot": "$HOME/projects/${projectDirName}/out/install/linux-x64-RelWithDebInfo",
+            "remoteCopySources": true,
+            "rsyncCommandArgs": "-t --delete --delete-excluded",
+            "remoteCopyBuildOutput": false,
+            "remoteCopySourcesMethod": "rsync",
+            "remoteCopyAdditionalIncludeDirectories": [ "$HOME/projects/${projectDirName}/out/build/linux-x64-RelWithDebInfo" ]
+        },
+        {
+            "name": "P2R-linux-x64-Release",
+            "generator": "Ninja",
+            "configurationType": "Release",
+            "cmakeExecutable": "cmake",
+            "remoteCopySourcesExclusionList": [ ".vs", ".git", "out", ".svn", "build", ".nsbk", "DebugProjects", "DebugProjects/**/Platform/android", "DebugProjects/**/Platform/linux/NSEngineLib", "Docs", "install", "Release", "Tools", "Engine/Bin", "Engine/Release", "EngineSamples", "EnginePackage", "Docs", "FETools", "NibiruStudioPlugin", "NibiruStudioProject", "ProjectInit", "SceneManager", "StudioDemo", "StudioDemoWin", "StudioPreview", "Tools", "Engine/Build", "Engine/Temp", "Engine/install", "Engine/out", "Engine/Libs/**/lib/android*", "Engine/Libs/**/lib/windows*", "Engine/Libs/**/lib/linux-aarch64*", "Engine/Libs/Unused", "Engine/ThirdParty" ],
+            "cmakeCommandArgs": "-DTARGET_OS=linux -DTARGET_ARCH=x64 -DNS_DEBUG_PROJECT=OFF",
+            "buildCommandArgs": "-j 8",
+            "ctestCommandArgs": "",
+            "inheritEnvironments": [ "linux_x64" ],
+            "remoteMachineName": "${defaultRemoteMachineName}",
+            "remoteCMakeListsRoot": "$HOME/projects/${projectDirName}/src",
+            "remoteBuildRoot": "$HOME/projects/${projectDirName}/out/build/linux-x64-Release",
+            "remoteInstallRoot": "$HOME/projects/${projectDirName}/out/install/linux-x64-Release",
+            "remoteCopySources": true,
+            "rsyncCommandArgs": "-t --delete --delete-excluded",
+            "remoteCopyBuildOutput": true,
+            "remoteCopySourcesMethod": "rsync",
+            "remoteCopyAdditionalIncludeDirectories": []
+        },
+        {
+            "name": "P3D-linux-aarch64-RelWithDebInfo",
+            "generator": "Ninja",
+            "configurationType": "RelWithDebInfo",
+            "cmakeExecutable": "cmake",
+            "remoteCopySourcesExclusionList": [ ".vs", ".git", "out", ".svn", "build", ".nsbk", "DebugProjects/UndebugProjects", "DebugProjects/**/Platform/android", "DebugProjects/**/Platform/linux/NSEngineLib", "Docs", "install", "Release", "Tools", "Engine/Bin", "Engine/Release", "Engine/Build", "Engine/install", "Engine/out", "Engine/Libs/**/lib/android*", "Engine/Libs/**/lib/windows*", "Engine/Libs/**/lib/linux-x64*", "Engine/Libs/Unused", "Engine/ThirdParty" ],
+            "cmakeCommandArgs": "-DTARGET_OS=linux -DTARGET_ARCH=aarch64 -DNS_DEBUG_PROJECT=ON",
+            "buildCommandArgs": "-j 8",
+            "ctestCommandArgs": "",
+            "inheritEnvironments": [ "linux_arm" ],
+            "remoteMachineName": "${defaultRemoteMachineName}",
+            "remoteCMakeListsRoot": "$HOME/projects/${projectDirName}/src",
+            "remoteBuildRoot": "$HOME/projects/${projectDirName}/out/build/linux-aarch64-RelWithDebInfo",
+            "remoteInstallRoot": "$HOME/projects/${projectDirName}/out/install/linux-aarch64-RelWithDebInfo",
+            "remoteCopySources": true,
+            "rsyncCommandArgs": "-t --delete --delete-excluded",
+            "remoteCopyBuildOutput": false,
+            "remoteCopySourcesMethod": "rsync",
+            "remoteCopyAdditionalIncludeDirectories": []
+        },
+        {
+            "name": "P3R-linux-aarch64-Release",
+            "generator": "Ninja",
+            "configurationType": "Release",
+            "cmakeExecutable": "cmake",
+            "remoteCopySourcesExclusionList": [ ".vs", ".git", "out", ".svn", "build", ".nsbk", "DebugProjects", "DebugProjects/**/Platform/android", "DebugProjects/**/Platform/linux/NSEngineLib", "Docs", "install", "DebugProjects", "Release", "Tools", "Engine/Bin", "Engine/Release", "Engine/Build", "Engine/install", "Engine/out", "Engine/Libs/**/lib/android*", "Engine/Libs/**/lib/windows*", "Engine/Libs/**/lib/linux-x64*", "Engine/Libs/Unused", "Engine/ThirdParty" ],
+            "cmakeCommandArgs": "-DTARGET_OS=linux -DTARGET_ARCH=aarch64 -DNS_DEBUG_PROJECT=OFF",
+            "buildCommandArgs": "-j 8",
+            "ctestCommandArgs": "",
+            "inheritEnvironments": [ "linux_arm" ],
+            "remoteMachineName": "${defaultRemoteMachineName}",
+            "remoteCMakeListsRoot": "$HOME/projects/${projectDirName}/src",
+            "remoteBuildRoot": "$HOME/projects/${projectDirName}/out/build/linux-aarch64-Release",
+            "remoteInstallRoot": "$HOME/projects/${projectDirName}/out/install/linux-aarch64-Release",
+            "remoteCopySources": true,
+            "rsyncCommandArgs": "-t --delete --delete-excluded",
+            "remoteCopyBuildOutput": true,
+            "remoteCopySourcesMethod": "rsync",
+            "remoteCopyAdditionalIncludeDirectories": []
+        }
+    ]
+}

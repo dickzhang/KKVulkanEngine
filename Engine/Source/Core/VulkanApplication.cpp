@@ -4,9 +4,43 @@
 std::unique_ptr<VulkanApplication> VulkanApplication::instance;
 std::once_flag VulkanApplication::onlyOnce;
 
-extern std::vector<const char *> instanceExtensionNames;
-extern std::vector<const char *> layerNames;
-extern std::vector<const char *> deviceExtensionNames;
+//extern std::vector<const char *> instanceExtensionNames;
+//extern std::vector<const char *> layerNames;
+//extern std::vector<const char *> deviceExtensionNames;
+
+
+//实例扩展名
+std::vector<const char *> instanceExtensionNames =
+{
+	VK_KHR_SURFACE_EXTENSION_NAME,
+	VK_KHR_WIN32_SURFACE_EXTENSION_NAME,//这个扩展可以打印所有的api调用以及参数和返回值
+	VK_EXT_DEBUG_REPORT_EXTENSION_NAME,
+};
+
+std::vector<const char *> layerNames =
+{
+	"VK_LAYER_LUNARG_standard_validation",//按照最佳的顺序加载一组标准的验证层
+	//"VK_LAYER_LUNARG_api_dump"//这个层负责将wulkan api的调用信息打印出来
+};
+
+//调试报告对应的一些层
+//std::vector<const char *> layerNames =
+//{
+//	"VK_LAYER_GOOGLE_threading",
+//	"VK_LAYER_LUNARG_parameter_validation",
+//	"VK_LAYER_LUNARG_device_limits",
+//	"VK_LAYER_LUNARG_object_tracker",
+//	"VK_LAYER_LUNARG_image",
+//	"VK_LAYER_LUNARG_core_validation",
+//	"VK_LAYER_LUNARG_core_swapchain",
+//	"VK_LAYER_LUNARG_core_unique_objects"
+//};
+
+//设备扩展名
+std::vector<const char *> deviceExtensionNames =
+{
+	VK_KHR_SWAPCHAIN_EXTENSION_NAME
+};
 
 VulkanApplication::VulkanApplication()
 {
