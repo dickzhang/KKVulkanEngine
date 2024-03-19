@@ -8,7 +8,7 @@
 #include "DVKUtils.h"
 #include "DVKBuffer.h"
 #include "DVKTexture.h"
-#include "FileManager.h"
+#include "File/FileManager.h"
 #include "Vulkan/VulkanCommon.h"
 
 namespace spirv_cross

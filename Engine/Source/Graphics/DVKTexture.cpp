@@ -1,7 +1,7 @@
 ﻿#include "DVKTexture.h"
 #include "DVKBuffer.h"
 #include "DVKUtils.h"
-#include "FileManager.h"
+#include "File/FileManager.h"
 
 #include "Math/Math.h"
 #include "Loader/ImageLoader.h"

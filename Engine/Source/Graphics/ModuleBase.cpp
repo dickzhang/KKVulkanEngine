@@ -1,8 +1,8 @@
-﻿#include "DemoBase.h"
+﻿#include "ModuleBase.h"
 #include "DVKDefaultRes.h"
 #include "DVKCommand.h"
 
-void DemoBase::Setup()
+void ModuleBase::Setup()
 {
     auto vulkanRHI    = GetVulkanRHI();
     auto vulkanDevice = vulkanRHI->GetDevice();
@@ -18,13 +18,13 @@ void DemoBase::Setup()
     m_FrameHeight   = vulkanRHI->GetSwapChain()->GetHeight();
 }
 
-int32 DemoBase::AcquireBackbufferIndex()
+int32 ModuleBase::AcquireBackbufferIndex()
 {
     int32 backBufferIndex = m_SwapChain->AcquireImageIndex(&m_PresentComplete);
     return backBufferIndex;
 }
 
-void DemoBase::Present(int backBufferIndex)
+void ModuleBase::Present(int backBufferIndex)
 {
     VkSubmitInfo submitInfo = {};
     submitInfo.sType                = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -45,21 +45,21 @@ void DemoBase::Present(int backBufferIndex)
     m_SwapChain->Present(m_VulkanDevice->GetGraphicsQueue(), m_VulkanDevice->GetPresentQueue(), &m_RenderComplete);
 }
 
-uint32 DemoBase::GetMemoryTypeFromProperties(uint32 typeBits, VkMemoryPropertyFlags properties)
+uint32 ModuleBase::GetMemoryTypeFromProperties(uint32 typeBits, VkMemoryPropertyFlags properties)
 {
     uint32 memoryTypeIndex = 0;
     GetVulkanRHI()->GetDevice()->GetMemoryManager().GetMemoryTypeFromProperties(typeBits, properties, &memoryTypeIndex);
     return memoryTypeIndex;
 }
 
-void DemoBase::DestroyPipelineCache()
+void ModuleBase::DestroyPipelineCache()
 {
     VkDevice device = GetVulkanRHI()->GetDevice()->GetInstanceHandle();
     vkDestroyPipelineCache(device, m_PipelineCache, VULKAN_CPU_ALLOCATOR);
     m_PipelineCache = VK_NULL_HANDLE;
 }
 
-void DemoBase::CreatePipelineCache()
+void ModuleBase::CreatePipelineCache()
 {
     VkDevice device = GetVulkanRHI()->GetDevice()->GetInstanceHandle();
 
@@ -68,7 +68,7 @@ void DemoBase::CreatePipelineCache()
     VERIFYVULKANRESULT(vkCreatePipelineCache(device, &createInfo, VULKAN_CPU_ALLOCATOR, &m_PipelineCache));
 }
 
-void DemoBase::CreateFences()
+void ModuleBase::CreateFences()
 {
     VkDevice device  = GetVulkanRHI()->GetDevice()->GetInstanceHandle();
     int32 frameCount = GetVulkanRHI()->GetSwapChain()->GetBackBufferCount();
@@ -88,7 +88,7 @@ void DemoBase::CreateFences()
     vkCreateSemaphore(device, &createInfo, VULKAN_CPU_ALLOCATOR, &m_RenderComplete);
 }
 
-void DemoBase::DestroyFences()
+void ModuleBase::DestroyFences()
 {
     VkDevice device = GetVulkanRHI()->GetDevice()->GetInstanceHandle();
 
@@ -100,19 +100,19 @@ void DemoBase::DestroyFences()
     vkDestroySemaphore(device, m_RenderComplete, VULKAN_CPU_ALLOCATOR);
 }
 
-void DemoBase::CreateDefaultRes()
+void ModuleBase::CreateDefaultRes()
 {
     vk_demo::DVKCommandBuffer* cmdbuffer = vk_demo::DVKCommandBuffer::Create(GetVulkanRHI()->GetDevice(), m_CommandPool);
     vk_demo::DVKDefaultRes::Init(GetVulkanRHI()->GetDevice(), cmdbuffer);
     delete cmdbuffer;
 }
 
-void DemoBase::DestroyDefaultRes()
+void ModuleBase::DestroyDefaultRes()
 {
     vk_demo::DVKDefaultRes::Destroy();
 }
 
-void DemoBase::CreateCommandBuffers()
+void ModuleBase::CreateCommandBuffers()
 {
     VkDevice device = GetVulkanRHI()->GetDevice()->GetInstanceHandle();
 
@@ -141,7 +141,7 @@ void DemoBase::CreateCommandBuffers()
     }
 }
 
-void DemoBase::DestroyCommandBuffers()
+void ModuleBase::DestroyCommandBuffers()
 {
     VkDevice device = GetVulkanRHI()->GetDevice()->GetInstanceHandle();
     for (int32 i = 0; i < m_CommandBuffers.size(); ++i)

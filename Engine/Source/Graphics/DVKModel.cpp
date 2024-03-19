@@ -1,6 +1,6 @@
 ﻿#include "DVKModel.h"
 
-#include "FileManager.h"
+#include "File/FileManager.h"
 #include "Math/Matrix4x4.h"
 
 #include <assimp/Importer.hpp>

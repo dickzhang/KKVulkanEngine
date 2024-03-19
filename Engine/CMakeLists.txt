@@ -157,22 +157,23 @@ add_definitions(-DVK_USE_PLATFORM_WIN32_KHR)
 #endif()
 
 set(WKEngine_Sources
-		${ENGINE_SOURCE_DIR}/Demo/DemoBase.cpp
-		${ENGINE_SOURCE_DIR}/Demo/DVKBuffer.cpp
-		${ENGINE_SOURCE_DIR}/Demo/DVKCommand.cpp
-		${ENGINE_SOURCE_DIR}/Demo/DVKVertexBuffer.cpp
-		${ENGINE_SOURCE_DIR}/Demo/DVKIndexBuffer.cpp
-		${ENGINE_SOURCE_DIR}/Demo/DVKModel.cpp
-		${ENGINE_SOURCE_DIR}/Demo/DVKPipeline.cpp
-		${ENGINE_SOURCE_DIR}/Demo/DVKTexture.cpp
-		${ENGINE_SOURCE_DIR}/Demo/DVKShader.cpp
-		${ENGINE_SOURCE_DIR}/Demo/DVKMaterial.cpp
-		${ENGINE_SOURCE_DIR}/Demo/DVKDefaultRes.cpp
-		${ENGINE_SOURCE_DIR}/Demo/DVKRenderTarget.cpp
-		${ENGINE_SOURCE_DIR}/Demo/DVKCamera.cpp
-		${ENGINE_SOURCE_DIR}/Demo/DVKCompute.cpp
-		${ENGINE_SOURCE_DIR}/Demo/FileManager.cpp
-		${ENGINE_SOURCE_DIR}/Demo/ImageGUIContext.cpp
+		${ENGINE_SOURCE_DIR}/Graphics/ModuleBase.cpp
+		${ENGINE_SOURCE_DIR}/Graphics/DVKBuffer.cpp
+		${ENGINE_SOURCE_DIR}/Graphics/DVKCommand.cpp
+		${ENGINE_SOURCE_DIR}/Graphics/DVKVertexBuffer.cpp
+		${ENGINE_SOURCE_DIR}/Graphics/DVKIndexBuffer.cpp
+		${ENGINE_SOURCE_DIR}/Graphics/DVKModel.cpp
+		${ENGINE_SOURCE_DIR}/Graphics/DVKPipeline.cpp
+		${ENGINE_SOURCE_DIR}/Graphics/DVKTexture.cpp
+		${ENGINE_SOURCE_DIR}/Graphics/DVKShader.cpp
+		${ENGINE_SOURCE_DIR}/Graphics/DVKMaterial.cpp
+		${ENGINE_SOURCE_DIR}/Graphics/DVKDefaultRes.cpp
+		${ENGINE_SOURCE_DIR}/Graphics/DVKRenderTarget.cpp
+		${ENGINE_SOURCE_DIR}/Graphics/DVKCamera.cpp
+		${ENGINE_SOURCE_DIR}/Graphics/DVKCompute.cpp
+		${ENGINE_SOURCE_DIR}/Graphics/ImageGUIContext.cpp
+
+		${ENGINE_SOURCE_DIR}/File/FileManager.cpp
 		${ENGINE_SOURCE_DIR}/Engine.cpp
 		${ENGINE_SOURCE_DIR}/Launch/Launch.cpp
 		${ENGINE_SOURCE_DIR}/Application/GenericWindow.cpp

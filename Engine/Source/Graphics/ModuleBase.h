@@ -13,10 +13,10 @@
 
 #include <string>
 
-class DemoBase : public AppModuleBase
+class ModuleBase : public AppModuleBase
 {
 public:
-    DemoBase(int32 width, int32 height, const char* title, const std::vector<std::string>& cmdLine)
+    ModuleBase(int32 width, int32 height, const char* title, const std::vector<std::string>& cmdLine)
         : AppModuleBase(width, height, title)
         , m_Device(VK_NULL_HANDLE)
         , m_VulkanDevice(nullptr)
@@ -34,7 +34,7 @@ public:
 
     }
 
-    virtual ~DemoBase()
+    virtual ~ModuleBase()
     {
 
     }
