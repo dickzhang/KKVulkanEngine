@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 option(NS_DEBUG_PROJECT "Debug Project" OFF)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake/modules/")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake/")
 #link_directories(${CMAKE_SOURCE_DIR}/Libs)
 
 set(ROOT_PATH ${PROJECT_SOURCE_DIR})
@@ -26,6 +26,9 @@ set(ENGINE_TARGET_OS ${TARGET_OS})
 set(ENGINE_TARGET_ARCH ${TARGET_ARCH})
 
 add_definitions(-DROOT_PATH=\"${ENGINE_DIR}/\")
+add_definitions(-DNOMINMAX=1)
+add_definitions(-DMONKEY_DEBUG=1)
+add_definitions(-DDEMO_RES_PATH=\"${ROOT_PATH}/examples/\")
 
 if("${ENGINE_TARGET_OS}" STREQUAL "android")
     set(ENGINE_TARGET_ARCH ${ANDROID_ABI})
@@ -55,15 +58,20 @@ else()
     set(ENGINE_DEBUG OFF CACHE INTERNAL "release")
 endif()
 
+if ("${ENGINE_TARGET_OS}" STREQUAL "linux")
+include(CMake/PlatformLinux.cmake)
+elseif("${ENGINE_TARGET_OS}" STREQUAL "windows")
+include(CMake/PlatformWindows.cmake)
+elseif("${ENGINE_TARGET_OS}" STREQUAL "android")
+include(CMake/PlatformAndroid.cmake)
+endif()
+
 include_directories(${ROOT_PATH}/Include)
 include_directories(${ROOT_PATH}/Source)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${PLATFORM_CXX_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${PLATFORM_LINK_FLAGS}")
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${PLATFORM_LINK_FLAGS}")
-
-message("CMAKE_CXX_FLAGS: " ${CMAKE_CXX_FLAGS})
-message("CMAKE_CXX_FLAGS: " ${ENGINE_SOURCE_DIR})
 
 # AUTO_LOCATE_VULKAN - accepted value ON or OFF
 # ON  - Use CMake to auto locate the Vulkan SDK.
@@ -112,74 +120,103 @@ add_definitions(-DVK_USE_PLATFORM_WIN32_KHR)
 
 # We do not use ${Vulkan_LIBRARY}, instead we specify as per our need.
 # Add 'vulkan-1' library for building Vulkan applications.
-set(VULKAN_LIB_LINK_LIST "vulkan-1")
-
-if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-	# Include Vulkan header files from Vulkan SDK
-	include_directories(AFTER ${VULKAN_PATH}/Include)
-	# Link directory for vulkan-1
-	link_directories(${VULKAN_PATH}/Bin)
-	#是否支持在线编译shader为spri-v
-	if(BUILD_SPV_ON_COMPILE_TIME)
-		# Preprocessor  flag allows the solution to use glslang library functions
-		add_definitions(-DAUTO_COMPILE_GLSL_TO_SPV)
-		#GLSL - use Vulkan SDK's glslang library for compling GLSL to SPV 
-		# This does not require offline coversion of GLSL shader to SPIR-V(.spv) form 
-		set(GLSLANGDIR "${VULKAN_PATH}/glslang")
-		get_filename_component(GLSLANG_PREFIX "${GLSLANGDIR}" ABSOLUTE)
-		if(NOT EXISTS ${GLSLANG_PREFIX})
-			message(FATAL_ERROR "Necessary glslang components do not exist: " ${GLSLANG_PREFIX})
-		endif()
-		include_directories( ${GLSLANG_PREFIX} )
-		
-		# If compiling GLSL to SPV using we need the following libraries
-		set(GLSLANG_LIBS SPIRV glslang OGLCompiler OSDependent HLSL)
-
-		# Generate the list of files to link, per flavor.
-		foreach(x ${GLSLANG_LIBS})
-			list(APPEND VULKAN_LIB_LINK_LIST debug ${x}d optimized ${x})
-		endforeach()
-		# Note: While configuring CMake for glslang we created the binaries in a "build" folder inside ${VULKAN_PATH}/glslang.
-		# Therefore, you must edit the below lines for your custorm path like <Your binary path>/OGLCompilersDLL , <Your binary path>/OSDependent/Windows
-		link_directories(${VULKAN_PATH}/glslang/build/OGLCompilersDLL )
-		link_directories(${VULKAN_PATH}/glslang/build/glslang/OSDependent/Windows)
-		link_directories(${VULKAN_PATH}/glslang/build/glslang)
-		link_directories(${VULKAN_PATH}/glslang/build/SPIRV)
-		link_directories(${VULKAN_PATH}/glslang/build/hlsl)
-	endif()
-endif()
+#set(VULKAN_LIB_LINK_LIST "vulkan-1")
+#if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+#	# Include Vulkan header files from Vulkan SDK
+#	include_directories(AFTER ${VULKAN_PATH}/Include)
+#	# Link directory for vulkan-1
+#	link_directories(${VULKAN_PATH}/Bin)
+#	#是否支持在线编译shader为spri-v
+#	if(BUILD_SPV_ON_COMPILE_TIME)
+#		# Preprocessor  flag allows the solution to use glslang library functions
+#		add_definitions(-DAUTO_COMPILE_GLSL_TO_SPV)
+#		#GLSL - use Vulkan SDK's glslang library for compling GLSL to SPV 
+#		# This does not require offline coversion of GLSL shader to SPIR-V(.spv) form 
+#		set(GLSLANGDIR "${VULKAN_PATH}/glslang")
+#		get_filename_component(GLSLANG_PREFIX "${GLSLANGDIR}" ABSOLUTE)
+#		if(NOT EXISTS ${GLSLANG_PREFIX})
+#			message(FATAL_ERROR "Necessary glslang components do not exist: " ${GLSLANG_PREFIX})
+#		endif()
+#		include_directories( ${GLSLANG_PREFIX} )
+#		
+#		# If compiling GLSL to SPV using we need the following libraries
+#		set(GLSLANG_LIBS SPIRV glslang OGLCompiler OSDependent HLSL)
+#
+#		# Generate the list of files to link, per flavor.
+#		foreach(x ${GLSLANG_LIBS})
+#			list(APPEND VULKAN_LIB_LINK_LIST debug ${x}d optimized ${x})
+#		endforeach()
+#		# Note: While configuring CMake for glslang we created the binaries in a "build" folder inside ${VULKAN_PATH}/glslang.
+#		# Therefore, you must edit the below lines for your custorm path like <Your binary path>/OGLCompilersDLL , <Your binary path>/OSDependent/Windows
+#		link_directories(${VULKAN_PATH}/glslang/build/OGLCompilersDLL )
+#		link_directories(${VULKAN_PATH}/glslang/build/glslang/OSDependent/Windows)
+#		link_directories(${VULKAN_PATH}/glslang/build/glslang)
+#		link_directories(${VULKAN_PATH}/glslang/build/SPIRV)
+#		link_directories(${VULKAN_PATH}/glslang/build/hlsl)
+#	endif()
+#endif()
 
 set(WKEngine_Sources
-        ${ENGINE_SOURCE_DIR}/Core/VulkanSwapChain.cpp
-        ${ENGINE_SOURCE_DIR}/Core/VulkanShader.cpp
-		 ${ENGINE_SOURCE_DIR}/Core/VulkanInstance.cpp
-        ${ENGINE_SOURCE_DIR}/Core/VulkanRenderer.cpp
-        ${ENGINE_SOURCE_DIR}/Core/VulkanPipeline.cpp
-        ${ENGINE_SOURCE_DIR}/Core/VulkanLayerAndExtension.cpp
-        ${ENGINE_SOURCE_DIR}/Core/VulkanDrawable.cpp
-        ${ENGINE_SOURCE_DIR}/Core/VulkanDevice.cpp
-        ${ENGINE_SOURCE_DIR}/Core/VulkanDescriptor.cpp
-        ${ENGINE_SOURCE_DIR}/Core/CommandBufferMgr.cpp
-        ${ENGINE_SOURCE_DIR}/Core/VulkanApplication.cpp
-        ${ENGINE_SOURCE_DIR}/Platforms/WinMain.cpp
-		    #platform related
+		${ENGINE_SOURCE_DIR}/Demo/DemoBase.cpp
+		${ENGINE_SOURCE_DIR}/Demo/DVKBuffer.cpp
+		${ENGINE_SOURCE_DIR}/Demo/DVKCommand.cpp
+		${ENGINE_SOURCE_DIR}/Demo/DVKVertexBuffer.cpp
+		${ENGINE_SOURCE_DIR}/Demo/DVKIndexBuffer.cpp
+		${ENGINE_SOURCE_DIR}/Demo/DVKModel.cpp
+		${ENGINE_SOURCE_DIR}/Demo/DVKPipeline.cpp
+		${ENGINE_SOURCE_DIR}/Demo/DVKTexture.cpp
+		${ENGINE_SOURCE_DIR}/Demo/DVKShader.cpp
+		${ENGINE_SOURCE_DIR}/Demo/DVKMaterial.cpp
+		${ENGINE_SOURCE_DIR}/Demo/DVKDefaultRes.cpp
+		${ENGINE_SOURCE_DIR}/Demo/DVKRenderTarget.cpp
+		${ENGINE_SOURCE_DIR}/Demo/DVKCamera.cpp
+		${ENGINE_SOURCE_DIR}/Demo/DVKCompute.cpp
+		${ENGINE_SOURCE_DIR}/Demo/FileManager.cpp
+		${ENGINE_SOURCE_DIR}/Demo/ImageGUIContext.cpp
+		${ENGINE_SOURCE_DIR}/Engine.cpp
+		${ENGINE_SOURCE_DIR}/Launch/Launch.cpp
+		${ENGINE_SOURCE_DIR}/Application/GenericWindow.cpp
+		${ENGINE_SOURCE_DIR}/Application/GenericApplication.cpp
+		${ENGINE_SOURCE_DIR}/Application/Application.cpp
+		${ENGINE_SOURCE_DIR}/Math/Math.cpp
+		${ENGINE_SOURCE_DIR}/Math/GenericPlatformMath.cpp
+		${ENGINE_SOURCE_DIR}/Math/Color.cpp
+		${ENGINE_SOURCE_DIR}/Utils/SecureHash.cpp
+		${ENGINE_SOURCE_DIR}/Utils/Crc.cpp
+		${ENGINE_SOURCE_DIR}/Core/PixelFormat.cpp
+		${ENGINE_SOURCE_DIR}/Vulkan/VulkanRHI.cpp
+		${ENGINE_SOURCE_DIR}/Vulkan/VulkanLayers.cpp
+		${ENGINE_SOURCE_DIR}/Vulkan/VulkanQueue.cpp
+		${ENGINE_SOURCE_DIR}/Vulkan/VulkanDevice.cpp
+		${ENGINE_SOURCE_DIR}/Vulkan/VulkanDebug.cpp
+		${ENGINE_SOURCE_DIR}/Vulkan/VulkanSwapChain.cpp
+		${ENGINE_SOURCE_DIR}/Vulkan/VulkanMemory.cpp
+		${ENGINE_SOURCE_DIR}/Vulkan/VulkanFence.cpp
+		${ENGINE_SOURCE_DIR}/Loader/ImageLoader.cpp
+		${ENGINE_SOURCE_DIR}/GenericPlatform/InputManager.cpp
+		
         ${PLATFORM_SOURCE}
 		)
 
+set(Examples_Source
+	${ROOT_PATH}/examples/1_Triangle/Triangle.cpp
+)
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序
         set(EXE_TARGET WIN32)
 endif()
 
-add_executable(WKEngine ${EXE_TARGET} ${WKEngine_Sources} ${PLATFORM_TEST_RUN})
+add_executable(WKEngine ${EXE_TARGET} ${WKEngine_Sources} ${PLATFORM_SOURCE} ${Examples_Source})
 
 message("ENGINE_THIRDPARTY_DIR: " ${ENGINE_THIRDPARTY_DIR})
+message("ENGINE_INCLUDE_DIR: " ${ENGINE_INCLUDE_DIR})
 
 target_include_directories(WKEngine
         PUBLIC
 		${ENGINE_DIR}
-        ${ENGINE_THIRDPARTY_DIR}/gli/
-        ${ENGINE_THIRDPARTY_DIR}/glm/
+        ${ENGINE_INCLUDE_DIR}/gli/
+        ${ENGINE_INCLUDE_DIR}/glm/
+		${PLATFORM_INCLUDES}
 )
 # Link the debug and release libraries to the project
-target_link_libraries( WKEngine PUBLIC ${ENGINE_LINK_LIBS} ${VULKAN_LIB_LINK_LIST} )
+target_link_libraries( WKEngine PUBLIC ${ENGINE_LINK_LIBS} ${VULKAN_LIB_LINK_LIST} ${ALL_LIBS})
