@@ -414,7 +414,7 @@ void VulkanDevice::InitGPU(int32 deviceIndex)
     
     m_MemoryManager = new VulkanDeviceMemoryManager();
     m_MemoryManager->Init(this);
-    
+
     m_FenceManager = new VulkanFenceManager();
 	m_FenceManager->Init(this);
 }

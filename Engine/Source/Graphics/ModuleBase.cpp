@@ -48,7 +48,7 @@ void ModuleBase::Present(int backBufferIndex)
 uint32 ModuleBase::GetMemoryTypeFromProperties(uint32 typeBits, VkMemoryPropertyFlags properties)
 {
     uint32 memoryTypeIndex = 0;
-    GetVulkanRHI()->GetDevice()->GetMemoryManager().GetMemoryTypeFromProperties(typeBits, properties, &memoryTypeIndex);
+    GetVulkanRHI()->GetDevice()->GetMemoryManager()->GetMemoryTypeFromProperties(typeBits, properties, &memoryTypeIndex);
     return memoryTypeIndex;
 }
 

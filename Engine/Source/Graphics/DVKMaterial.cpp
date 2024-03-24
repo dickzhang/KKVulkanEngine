@@ -12,7 +12,7 @@ void DVKMaterial::InitRingBuffer(std::shared_ptr<VulkanDevice> vulkanDevice)
 	ringBuffer->bufferSize = 32*1024*1024; // 32MB
 	ringBuffer->bufferOffset = ringBuffer->bufferSize;
 	ringBuffer->minAlignment = (uint32)vulkanDevice->GetLimits().minUniformBufferOffsetAlignment;
-	ringBuffer->realBuffer = DVKBuffer::CreateBuffer(vulkanDevice->GetMemoryManager(),
+	ringBuffer->realBuffer = DVKBuffer::CreateBuffer(
 		vulkanDevice,
 		VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT|VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,

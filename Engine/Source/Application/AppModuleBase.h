@@ -139,7 +139,7 @@ protected:
         VkMemoryRequirements memRequire;
         vkGetImageMemoryRequirements(device, m_DepthStencilImage, &memRequire);
         uint32 memoryTypeIndex = 0;
-        VERIFYVULKANRESULT(GetVulkanRHI()->GetDevice()->GetMemoryManager().GetMemoryTypeFromProperties(memRequire.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, &memoryTypeIndex));
+        VERIFYVULKANRESULT(GetVulkanRHI()->GetDevice()->GetMemoryManager()->GetMemoryTypeFromProperties(memRequire.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, &memoryTypeIndex));
 
         VkMemoryAllocateInfo memAllocateInfo;
         ZeroVulkanStruct(memAllocateInfo, VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO);

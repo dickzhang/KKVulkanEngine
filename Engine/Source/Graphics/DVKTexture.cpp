@@ -11,7 +11,7 @@ DVKTexture* DVKTexture::Create2D(const uint8* rgbaData,uint32 size,VkFormat form
 	int32 mipLevels = MMath::FloorToInt(MMath::Log2((float)MMath::Max(width,height)))+1;
 	VkDevice device = vulkanDevice->GetInstanceHandle();
 
-	DVKBuffer* stagingBuffer = DVKBuffer::CreateBuffer(vulkanDevice->GetMemoryManager(),vulkanDevice,VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT|VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,size);
+	DVKBuffer* stagingBuffer = DVKBuffer::CreateBuffer(vulkanDevice,VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT|VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,size);
 	stagingBuffer->Map();
 	stagingBuffer->CopyFrom((void*)rgbaData,size);
 	stagingBuffer->UnMap();
@@ -55,7 +55,7 @@ DVKTexture* DVKTexture::Create2D(const uint8* rgbaData,uint32 size,VkFormat form
 
 	// bind image buffer
 	vkGetImageMemoryRequirements(device,image,&memReqs);
-	vulkanDevice->GetMemoryManager().GetMemoryTypeFromProperties(memReqs.memoryTypeBits,VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,&memoryTypeIndex);
+	vulkanDevice->GetMemoryManager()->GetMemoryTypeFromProperties(memReqs.memoryTypeBits,VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,&memoryTypeIndex);
 	memAllocInfo.allocationSize = memReqs.size;
 	memAllocInfo.memoryTypeIndex = memoryTypeIndex;
 	VERIFYVULKANRESULT(vkAllocateMemory(device,&memAllocInfo,VULKAN_CPU_ALLOCATOR,&imageMemory));
@@ -266,7 +266,7 @@ DVKTexture* DVKTexture::CreateCube(std::shared_ptr<VulkanDevice> vulkanDevice,DV
 
 	// bind image buffer
 	vkGetImageMemoryRequirements(device,image,&memReqs);
-	vulkanDevice->GetMemoryManager().GetMemoryTypeFromProperties(memReqs.memoryTypeBits,VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,&memoryTypeIndex);
+	vulkanDevice->GetMemoryManager()->GetMemoryTypeFromProperties(memReqs.memoryTypeBits,VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,&memoryTypeIndex);
 	memAllocInfo.allocationSize = memReqs.size;
 	memAllocInfo.memoryTypeIndex = memoryTypeIndex;
 	VERIFYVULKANRESULT(vkAllocateMemory(device,&memAllocInfo,VULKAN_CPU_ALLOCATOR,&imageMemory));
@@ -408,7 +408,7 @@ DVKTexture* DVKTexture::Create2DArray(
 
 	// bind image buffer
 	vkGetImageMemoryRequirements(device,image,&memReqs);
-	vulkanDevice->GetMemoryManager().GetMemoryTypeFromProperties(memReqs.memoryTypeBits,VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,&memoryTypeIndex);
+	vulkanDevice->GetMemoryManager()->GetMemoryTypeFromProperties(memReqs.memoryTypeBits,VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,&memoryTypeIndex);
 	memAllocInfo.allocationSize = memReqs.size;
 	memAllocInfo.memoryTypeIndex = memoryTypeIndex;
 	VERIFYVULKANRESULT(vkAllocateMemory(device,&memAllocInfo,VULKAN_CPU_ALLOCATOR,&imageMemory));
@@ -521,7 +521,7 @@ DVKTexture* DVKTexture::Create2D(std::shared_ptr<VulkanDevice> vulkanDevice,DVKC
 
 	// bind image buffer
 	vkGetImageMemoryRequirements(device,image,&memReqs);
-	vulkanDevice->GetMemoryManager().GetMemoryTypeFromProperties(memReqs.memoryTypeBits,VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,&memoryTypeIndex);
+	vulkanDevice->GetMemoryManager()->GetMemoryTypeFromProperties(memReqs.memoryTypeBits,VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,&memoryTypeIndex);
 	memAllocInfo.allocationSize = memReqs.size;
 	memAllocInfo.memoryTypeIndex = memoryTypeIndex;
 	VERIFYVULKANRESULT(vkAllocateMemory(device,&memAllocInfo,VULKAN_CPU_ALLOCATOR,&imageMemory));
@@ -682,7 +682,7 @@ DVKTexture* DVKTexture::CreateCube(const std::vector<std::string> filenames,std:
 	ZeroVulkanStruct(memAllocInfo,VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO);
 
 	// 准备stagingBuffer
-	DVKBuffer* stagingBuffer = DVKBuffer::CreateBuffer(vulkanDevice->GetMemoryManager(),
+	DVKBuffer* stagingBuffer = DVKBuffer::CreateBuffer(
 		vulkanDevice,
 		VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT|VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
@@ -725,7 +725,7 @@ DVKTexture* DVKTexture::CreateCube(const std::vector<std::string> filenames,std:
 
 	// bind image buffer
 	vkGetImageMemoryRequirements(device,image,&memReqs);
-	vulkanDevice->GetMemoryManager().GetMemoryTypeFromProperties(memReqs.memoryTypeBits,VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,&memoryTypeIndex);
+	vulkanDevice->GetMemoryManager()->GetMemoryTypeFromProperties(memReqs.memoryTypeBits,VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,&memoryTypeIndex);
 	memAllocInfo.allocationSize = memReqs.size;
 	memAllocInfo.memoryTypeIndex = memoryTypeIndex;
 	VERIFYVULKANRESULT(vkAllocateMemory(device,&memAllocInfo,VULKAN_CPU_ALLOCATOR,&imageMemory));
@@ -907,7 +907,7 @@ DVKTexture* DVKTexture::Create2DArray(const std::vector<std::string> filenames,s
 	ZeroVulkanStruct(memAllocInfo,VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO);
 
 	// 准备stagingBuffer
-	DVKBuffer* stagingBuffer = DVKBuffer::CreateBuffer(vulkanDevice->GetMemoryManager(),
+	DVKBuffer* stagingBuffer = DVKBuffer::CreateBuffer(
 		vulkanDevice,
 		VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT|VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
@@ -949,7 +949,7 @@ DVKTexture* DVKTexture::Create2DArray(const std::vector<std::string> filenames,s
 
 	// bind image buffer
 	vkGetImageMemoryRequirements(device,image,&memReqs);
-	vulkanDevice->GetMemoryManager().GetMemoryTypeFromProperties(memReqs.memoryTypeBits,VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,&memoryTypeIndex);
+	vulkanDevice->GetMemoryManager()->GetMemoryTypeFromProperties(memReqs.memoryTypeBits,VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,&memoryTypeIndex);
 	memAllocInfo.allocationSize = memReqs.size;
 	memAllocInfo.memoryTypeIndex = memoryTypeIndex;
 	VERIFYVULKANRESULT(vkAllocateMemory(device,&memAllocInfo,VULKAN_CPU_ALLOCATOR,&imageMemory));
@@ -1083,7 +1083,7 @@ DVKTexture* DVKTexture::Create3D(VkFormat format,const uint8* rgbaData,int32 siz
 {
 	VkDevice device = vulkanDevice->GetInstanceHandle();
 
-	DVKBuffer* stagingBuffer = DVKBuffer::CreateBuffer(vulkanDevice->GetMemoryManager(),vulkanDevice,VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT|VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,size);
+	DVKBuffer* stagingBuffer = DVKBuffer::CreateBuffer(vulkanDevice,VK_BUFFER_USAGE_TRANSFER_SRC_BIT,VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT|VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,size);
 	stagingBuffer->Map();
 	stagingBuffer->CopyFrom((void*)rgbaData,size);
 	stagingBuffer->UnMap();
@@ -1119,7 +1119,7 @@ DVKTexture* DVKTexture::Create3D(VkFormat format,const uint8* rgbaData,int32 siz
 
 	// bind image buffer
 	vkGetImageMemoryRequirements(device,image,&memReqs);
-	vulkanDevice->GetMemoryManager().GetMemoryTypeFromProperties(memReqs.memoryTypeBits,VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,&memoryTypeIndex);
+	vulkanDevice->GetMemoryManager()->GetMemoryTypeFromProperties(memReqs.memoryTypeBits,VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,&memoryTypeIndex);
 	memAllocInfo.allocationSize = memReqs.size;
 	memAllocInfo.memoryTypeIndex = memoryTypeIndex;
 	VERIFYVULKANRESULT(vkAllocateMemory(device,&memAllocInfo,VULKAN_CPU_ALLOCATOR,&imageMemory));

@@ -9,7 +9,7 @@ DVKVertexBuffer* DVKVertexBuffer::Create(std::shared_ptr<VulkanDevice> vulkanDev
 	vertexBuffer->device = device;
 	vertexBuffer->attributes = attributes;
 
-	DVKBuffer* vertexStaging = DVKBuffer::CreateBuffer(vulkanDevice->GetMemoryManager(),
+	DVKBuffer* vertexStaging = DVKBuffer::CreateBuffer(
 		vulkanDevice,
 		VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT|VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
@@ -17,7 +17,7 @@ DVKVertexBuffer* DVKVertexBuffer::Create(std::shared_ptr<VulkanDevice> vulkanDev
 		vertices.data()
 	);
 
-	vertexBuffer->dvkBuffer = DVKBuffer::CreateBuffer(vulkanDevice->GetMemoryManager(),
+	vertexBuffer->dvkBuffer = DVKBuffer::CreateBuffer(
 		vulkanDevice,
 		VK_BUFFER_USAGE_VERTEX_BUFFER_BIT|VK_BUFFER_USAGE_TRANSFER_DST_BIT,
 		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,

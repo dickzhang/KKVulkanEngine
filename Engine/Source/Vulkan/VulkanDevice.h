@@ -90,9 +90,10 @@ public:
 		return *m_FenceManager;
 	}
     
-    FORCE_INLINE VulkanDeviceMemoryManager& GetMemoryManager()
+    FORCE_INLINE VulkanDeviceMemoryManager* GetMemoryManager()
     {
-        return *m_MemoryManager;
+        MLOG("zkk============VulkanDeviceMemoryManager====");
+        return m_MemoryManager;
     }
     
 	FORCE_INLINE void AddAppDeviceExtensions(const char* name)

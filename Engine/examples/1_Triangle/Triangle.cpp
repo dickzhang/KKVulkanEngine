@@ -510,10 +510,10 @@ void TriangleModule::CreatePipelines()
 	ZeroVulkanStruct(shaderStages[0],VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO);
 	ZeroVulkanStruct(shaderStages[1],VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO);
 	shaderStages[0].stage = VK_SHADER_STAGE_VERTEX_BIT;
-	shaderStages[0].module = LoadSPIPVShader("1_Triangle/assets/shaders/triangle.vert.spv");
+	shaderStages[0].module = LoadSPIPVShader("Assets/Shaders/1_Triangle/triangle.vert.spv");
 	shaderStages[0].pName = "main";
 	shaderStages[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-	shaderStages[1].module = LoadSPIPVShader("1_Triangle/assets/shaders/triangle.frag.spv");
+	shaderStages[1].module = LoadSPIPVShader("Assets/Shaders/1_Triangle/triangle.frag.spv");
 	shaderStages[1].pName = "main";
 
 	VkGraphicsPipelineCreateInfo pipelineCreateInfo;

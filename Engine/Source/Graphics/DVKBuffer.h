@@ -53,9 +53,7 @@ public:
 
 public:
 
-	// static DVKBuffer* CreateBuffer(std::shared_ptr<VulkanDevice> device, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryPropertyFlags, VkDeviceSize size, void *data = nullptr);
-
-	static DVKBuffer* CreateBuffer(VulkanDeviceMemoryManager manager,std::shared_ptr<VulkanDevice> device,VkBufferUsageFlags usageFlags,VkMemoryPropertyFlags memoryPropertyFlags,VkDeviceSize size,void* data = nullptr);
+	 static DVKBuffer* CreateBuffer(std::shared_ptr<VulkanDevice> device, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryPropertyFlags, VkDeviceSize size, void *data = nullptr);
 
 	VkResult Map(VkDeviceSize size = VK_WHOLE_SIZE,VkDeviceSize offset = 0);
 

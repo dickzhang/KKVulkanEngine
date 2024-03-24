@@ -1,5 +1,10 @@
 ﻿#include "Triangle.h"
 
+std::shared_ptr<AppModuleBase> CreateAppMode(const std::vector<std::string>& cmdLine)
+{
+	return std::make_shared<TriangleModule>(1400,900,"2_Triangle_simple",cmdLine);
+}
+
 TriangleModule::TriangleModule(int32 width,int32 height,const char* title,const std::vector<std::string>& cmdLine)
 	: ModuleBase(width,height,title,cmdLine)
 {
@@ -253,10 +258,10 @@ void TriangleModule::CreatePipelines()
 	ZeroVulkanStruct(shaderStages[0],VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO);
 	ZeroVulkanStruct(shaderStages[1],VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO);
 	shaderStages[0].stage = VK_SHADER_STAGE_VERTEX_BIT;
-	shaderStages[0].module = LoadSPIPVShader(m_Device,"2_Triangle_simple/assets/shaders/triangle.vert.spv");
+	shaderStages[0].module = LoadSPIPVShader(m_Device,"Assets/Shaders/2_Triangle_simple/triangle.vert.spv");
 	shaderStages[0].pName = "main";
 	shaderStages[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-	shaderStages[1].module = LoadSPIPVShader(m_Device,"2_Triangle_simple/assets/shaders/triangle.frag.spv");
+	shaderStages[1].module = LoadSPIPVShader(m_Device,"Assets/Shaders/2_Triangle_simple/triangle.frag.spv");
 	shaderStages[1].pName = "main";
 
 	VkGraphicsPipelineCreateInfo pipelineCreateInfo;
@@ -327,8 +332,7 @@ void TriangleModule::CreateUniformBuffers()
 	m_ViewCamera.SetPosition(0,0,-5.0f);
 	m_ViewCamera.LookAt(0,0,0);
 	auto memoryManager = m_VulkanDevice->GetMemoryManager();
-	m_MVPBuffer = DVKBuffer::CreateBuffer(memoryManager,
-		m_VulkanDevice,
+	m_MVPBuffer = DVKBuffer::CreateBuffer(m_VulkanDevice,
 		VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT|VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
 		sizeof(UBOData),
@@ -359,9 +363,8 @@ void TriangleModule::CreateMeshBuffers()
 
 	std::vector<uint16> indices = { 0,1,2 };
 	m_IndicesCount = (uint32)indices.size();
-	auto memoryManager = m_VulkanDevice->GetMemoryManager();
 	// staging buffer
-	DVKBuffer* vertStaging = DVKBuffer::CreateBuffer(memoryManager,
+	DVKBuffer* vertStaging = DVKBuffer::CreateBuffer(
 		m_VulkanDevice,
 		VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT|VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
@@ -369,7 +372,7 @@ void TriangleModule::CreateMeshBuffers()
 		vertices.data()
 	);
 
-	DVKBuffer* idexStaging = DVKBuffer::CreateBuffer(memoryManager,
+	DVKBuffer* idexStaging = DVKBuffer::CreateBuffer(
 		m_VulkanDevice,
 		VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT|VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
@@ -378,14 +381,14 @@ void TriangleModule::CreateMeshBuffers()
 	);
 
 	// reeal buffer
-	m_VertexBuffer = DVKBuffer::CreateBuffer(memoryManager,
+	m_VertexBuffer = DVKBuffer::CreateBuffer(
 		m_VulkanDevice,
 		VK_BUFFER_USAGE_VERTEX_BUFFER_BIT|VK_BUFFER_USAGE_TRANSFER_DST_BIT,
 		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
 		vertices.size()*sizeof(Vertex)
 	);
 
-	m_IndexBuffer = DVKBuffer::CreateBuffer(memoryManager,
+	m_IndexBuffer = DVKBuffer::CreateBuffer(
 		m_VulkanDevice,
 		VK_BUFFER_USAGE_INDEX_BUFFER_BIT|VK_BUFFER_USAGE_TRANSFER_DST_BIT,
 		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
@@ -416,8 +419,3 @@ void TriangleModule::DestroyMeshBuffers()
 	delete m_IndexBuffer;
 }
 
-
-std::shared_ptr<AppModuleBase> CreateAppMode(const std::vector<std::string>& cmdLine)
-{
-	return std::make_shared<TriangleModule>(1400,900,"Command",cmdLine);
-}

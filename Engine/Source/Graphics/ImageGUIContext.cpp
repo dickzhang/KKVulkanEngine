@@ -398,7 +398,7 @@ void ImageGUIContext::PrepareFontResources()
     // font memory
     {
         vkGetImageMemoryRequirements(device, m_FontImage, &memReqs);
-        m_VulkanDevice->GetMemoryManager().GetMemoryTypeFromProperties(memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, &memoryTypeIndex);
+        m_VulkanDevice->GetMemoryManager()->GetMemoryTypeFromProperties(memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, &memoryTypeIndex);
         memAllocInfo.allocationSize  = memReqs.size;
         memAllocInfo.memoryTypeIndex = memoryTypeIndex;
         VERIFYVULKANRESULT(vkAllocateMemory(device, &memAllocInfo, VULKAN_CPU_ALLOCATOR, &m_FontMemory));
@@ -453,7 +453,7 @@ void ImageGUIContext::PrepareFontResources()
     // staging memory
     {
         vkGetBufferMemoryRequirements(device, stagingBuffer, &memReqs);
-        m_VulkanDevice->GetMemoryManager().GetMemoryTypeFromProperties(memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT, &memoryTypeIndex);
+        m_VulkanDevice->GetMemoryManager()->GetMemoryTypeFromProperties(memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT, &memoryTypeIndex);
         memAllocInfo.allocationSize  = memReqs.size;
         memAllocInfo.memoryTypeIndex = memoryTypeIndex;
         VERIFYVULKANRESULT(vkAllocateMemory(device, &memAllocInfo, VULKAN_CPU_ALLOCATOR, &stagingMemory));
@@ -716,7 +716,7 @@ void ImageGUIContext::CreateBuffer(UIBuffer& buffer, VkBufferUsageFlags usageFla
     ZeroVulkanStruct(memAllocInfo, VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO);
 
     vkGetBufferMemoryRequirements(device, buffer.buffer, &memReqs);
-    m_VulkanDevice->GetMemoryManager().GetMemoryTypeFromProperties(memReqs.memoryTypeBits, memoryPropertyFlags, &memoryTypeIndex);
+    m_VulkanDevice->GetMemoryManager()->GetMemoryTypeFromProperties(memReqs.memoryTypeBits, memoryPropertyFlags, &memoryTypeIndex);
     memAllocInfo.allocationSize  = memReqs.size;
     memAllocInfo.memoryTypeIndex = memoryTypeIndex;
     VERIFYVULKANRESULT(vkAllocateMemory(device, &memAllocInfo, VULKAN_CPU_ALLOCATOR, &buffer.memory));

@@ -355,7 +355,7 @@ void VulkanResourceAllocation::BindBuffer(VulkanDevice* device, VkBuffer buffer)
 #if MONKEY_DEBUG
     if (result == VK_ERROR_OUT_OF_DEVICE_MEMORY || result == VK_ERROR_OUT_OF_HOST_MEMORY)
     {
-        device->GetMemoryManager().DumpMemory();
+        device->GetMemoryManager()->DumpMemory();
     }
     VERIFYVULKANRESULT(result);
 #endif
@@ -367,7 +367,7 @@ void VulkanResourceAllocation::BindImage(VulkanDevice* device, VkImage image)
 #if MONKEY_DEBUG
     if (result == VK_ERROR_OUT_OF_DEVICE_MEMORY || result == VK_ERROR_OUT_OF_HOST_MEMORY)
     {
-        device->GetMemoryManager().DumpMemory();
+        device->GetMemoryManager()->DumpMemory();
     }
 #endif
     VERIFYVULKANRESULT(result);
@@ -501,7 +501,7 @@ VulkanResourceHeap::~VulkanResourceHeap()
                 MLOG("Page allocation %p has unfreed %s resources", (void*)page->m_DeviceMemoryAllocation->GetHandle(), name);
                 leak = true;
             }
-            m_Owner->GetVulkanDevice()->GetMemoryManager().Free(page->m_DeviceMemoryAllocation);
+            m_Owner->GetVulkanDevice()->GetMemoryManager()->Free(page->m_DeviceMemoryAllocation);
             delete page;
         }
         usedPages.clear();
@@ -516,7 +516,7 @@ VulkanResourceHeap::~VulkanResourceHeap()
     if (dump)
     {
 #if MONKEY_DEBUG
-        m_Owner->GetVulkanDevice()->GetMemoryManager().DumpMemory();
+        m_Owner->GetVulkanDevice()->GetMemoryManager()->DumpMemory();
 #endif
     }
 }
@@ -559,7 +559,7 @@ void VulkanResourceHeap::ReleaseFreedPages(bool immediately)
     {
         VulkanResourceHeapPage* page = m_FreePages[index];
         m_UsedMemory -= page->m_MaxSize;
-        m_Owner->GetVulkanDevice()->GetMemoryManager().Free(page->m_DeviceMemoryAllocation);
+        m_Owner->GetVulkanDevice()->GetMemoryManager()->Free(page->m_DeviceMemoryAllocation);
         delete page;
     }
     
@@ -629,9 +629,9 @@ VulkanResourceAllocation* VulkanResourceHeap::AllocateResource(Type type, uint32
     }
     
     uint32 allocationSize = MMath::Max(size, targetDefaultPageSize);
-    VulkanDeviceMemoryAllocation* deviceMemoryAllocation = m_Owner->GetVulkanDevice()->GetMemoryManager().Alloc(true, allocationSize, m_MemoryTypeIndex, nullptr, file, line);
+    VulkanDeviceMemoryAllocation* deviceMemoryAllocation = m_Owner->GetVulkanDevice()->GetMemoryManager()->Alloc(true, allocationSize, m_MemoryTypeIndex, nullptr, file, line);
     if (!deviceMemoryAllocation && size < allocationSize) {
-        deviceMemoryAllocation = m_Owner->GetVulkanDevice()->GetMemoryManager().Alloc(false, size, m_MemoryTypeIndex, nullptr, file, line);
+        deviceMemoryAllocation = m_Owner->GetVulkanDevice()->GetMemoryManager()->Alloc(false, size, m_MemoryTypeIndex, nullptr, file, line);
     }
     
     VulkanResourceHeapPage* newPage = new VulkanResourceHeapPage(this, deviceMemoryAllocation, m_PageIDCounter);
@@ -812,7 +812,7 @@ void VulkanSubBufferAllocator::Release(VulkanBufferSubAllocation* subAllocation)
 
 VulkanResourceHeapManager::VulkanResourceHeapManager(VulkanDevice* device)
     : m_VulkanDevice(device)
-    , m_DeviceMemoryManager(&device->GetMemoryManager())
+    , m_DeviceMemoryManager(device->GetMemoryManager())
 {
     
 }
@@ -824,10 +824,10 @@ VulkanResourceHeapManager::~VulkanResourceHeapManager()
 
 void VulkanResourceHeapManager::Init()
 {
-    VulkanDeviceMemoryManager& memoryManager = m_VulkanDevice->GetMemoryManager();
+    VulkanDeviceMemoryManager* memoryManager = m_VulkanDevice->GetMemoryManager();
 
-    const uint32 typeBits = (1 << memoryManager.GetNumMemoryTypes()) - 1;
-    const VkPhysicalDeviceMemoryProperties& memoryProperties = memoryManager.GetMemoryProperties();
+    const uint32 typeBits = (1 << memoryManager->GetNumMemoryTypes()) - 1;
+    const VkPhysicalDeviceMemoryProperties& memoryProperties = memoryManager->GetMemoryProperties();
 
     m_ResourceTypeHeaps.resize(memoryProperties.memoryTypeCount);
     
@@ -870,16 +870,16 @@ void VulkanResourceHeapManager::Init()
     
     {
         uint32 typeIndex = 0;
-        VERIFYVULKANRESULT(memoryManager.GetMemoryTypeFromProperties(typeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, &typeIndex));
+        VERIFYVULKANRESULT(memoryManager->GetMemoryTypeFromProperties(typeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, &typeIndex));
         m_ResourceTypeHeaps[typeIndex] = new VulkanResourceHeap(this, typeIndex, STAGING_HEAP_PAGE_SIZE);
     }
     
     {
         uint32 typeIndex          = 0;
         uint32 hostVisCachedIndex = 0;
-        VkResult hostCachedResult = memoryManager.GetMemoryTypeFromProperties(typeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_CACHED_BIT, &hostVisCachedIndex);
+        VkResult hostCachedResult = memoryManager->GetMemoryTypeFromProperties(typeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_CACHED_BIT, &hostVisCachedIndex);
         uint32 hostVisIndex       = 0;
-        VkResult hostResult       = memoryManager.GetMemoryTypeFromProperties(typeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT, &hostVisIndex);
+        VkResult hostResult       = memoryManager->GetMemoryTypeFromProperties(typeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT, &hostVisIndex);
         if (hostCachedResult == VK_SUCCESS) {
             typeIndex = hostVisCachedIndex;
         }
@@ -1034,10 +1034,10 @@ VulkanBufferSubAllocation* VulkanResourceHeapManager::AllocateBuffer(uint32 size
     VkMemoryRequirements memReqs;
     vkGetBufferMemoryRequirements(m_VulkanDevice->GetInstanceHandle(), buffer, &memReqs);
     uint32 memoryTypeIndex = 0;
-    VERIFYVULKANRESULT(m_VulkanDevice->GetMemoryManager().GetMemoryTypeFromProperties(memReqs.memoryTypeBits, memoryPropertyFlags, &memoryTypeIndex));
+    VERIFYVULKANRESULT(m_VulkanDevice->GetMemoryManager()->GetMemoryTypeFromProperties(memReqs.memoryTypeBits, memoryPropertyFlags, &memoryTypeIndex));
     alignment = MMath::Max((uint32)memReqs.alignment, alignment);
     
-    VulkanDeviceMemoryAllocation* deviceMemoryAllocation = m_VulkanDevice->GetMemoryManager().Alloc(false, memReqs.size, memoryTypeIndex, nullptr, file, line);
+    VulkanDeviceMemoryAllocation* deviceMemoryAllocation = m_VulkanDevice->GetMemoryManager()->Alloc(false, memReqs.size, memoryTypeIndex, nullptr, file, line);
     VERIFYVULKANRESULT(vkBindBufferMemory(m_VulkanDevice->GetInstanceHandle(), buffer, deviceMemoryAllocation->GetHandle(), 0));
 
     if (deviceMemoryAllocation->CanBeMapped()) {
@@ -1157,7 +1157,7 @@ void VulkanResourceHeapManager::ReleaseFreedResources(bool immediately)
         {
             VulkanSubBufferAllocator* bufferAllocation = freeAllocations[index];
             bufferAllocation->Destroy(m_VulkanDevice);
-            m_VulkanDevice->GetMemoryManager().Free(bufferAllocation->m_DeviceMemoryAllocation);
+            m_VulkanDevice->GetMemoryManager()->Free(bufferAllocation->m_DeviceMemoryAllocation);
             delete bufferAllocation;
         }
         freeAllocations.clear();
@@ -1176,7 +1176,7 @@ void VulkanResourceHeapManager::DestroyResourceAllocations()
                 MLOG("Suballocation(s) for Buffer %p were not released.", (void*)bufferAllocation->m_Buffer);
             }
             bufferAllocation->Destroy(m_VulkanDevice);
-            m_VulkanDevice->GetMemoryManager().Free(bufferAllocation->m_DeviceMemoryAllocation);
+            m_VulkanDevice->GetMemoryManager()->Free(bufferAllocation->m_DeviceMemoryAllocation);
             delete bufferAllocation;
         }
         usedAllocations.clear();
@@ -1188,7 +1188,7 @@ void VulkanResourceHeapManager::DestroyResourceAllocations()
         {
             VulkanSubBufferAllocator* bufferAllocation = freeAllocations[index];
             bufferAllocation->Destroy(m_VulkanDevice);
-            m_VulkanDevice->GetMemoryManager().Free(bufferAllocation->m_DeviceMemoryAllocation);
+            m_VulkanDevice->GetMemoryManager()->Free(bufferAllocation->m_DeviceMemoryAllocation);
             delete bufferAllocation;
         }
         freeAllocations.clear();
