@@ -12,31 +12,27 @@
 
 #include <vector>
 
-namespace vk_demo
+
+class DVKDefaultRes
 {
+private:
+	DVKDefaultRes()
+	{
 
-    class DVKDefaultRes
-    {
-    private:
-        DVKDefaultRes()
-        {
+	}
 
-        }
+	virtual ~DVKDefaultRes()
+	{
 
-        virtual ~DVKDefaultRes()
-        {
+	}
+public:
 
-        }
-    public:
+	static void Init(std::shared_ptr<VulkanDevice> vulkanDevice,DVKCommandBuffer* cmdBuffer);
 
-        static void Init(std::shared_ptr<VulkanDevice> vulkanDevice, DVKCommandBuffer* cmdBuffer);
+	static void Destroy();
 
-        static void Destroy();
+public:
+	static DVKTexture* texture2D;
+	static DVKModel* fullQuad;
 
-    public:
-        static DVKTexture*  texture2D;
-        static DVKModel*    fullQuad;
-
-    };
-
-}
+};

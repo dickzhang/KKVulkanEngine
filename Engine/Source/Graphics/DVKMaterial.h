@@ -17,164 +17,161 @@
 #include "Utils/Alignment.h"
 #include "Vulkan/VulkanCommon.h"
 
-namespace vk_demo
+
+struct DVKSimulateBuffer
 {
+	std::vector<uint8>      dataContent;
+	bool                    global = false;
+	uint32                  dataSize = 0;
+	uint32                  set = 0;
+	uint32                  binding = 0;
+	uint32                  dynamicIndex = 0;
+	VkDescriptorType        descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+	VkShaderStageFlags      stageFlags = 0;
+	VkDescriptorBufferInfo  bufferInfo;
+};
 
-    struct DVKSimulateBuffer
-    {
-        std::vector<uint8>      dataContent;
-        bool                    global = false;
-        uint32                  dataSize = 0;
-        uint32                  set = 0;
-        uint32                  binding = 0;
-        uint32                  dynamicIndex = 0;
-        VkDescriptorType        descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-        VkShaderStageFlags      stageFlags = 0;
-        VkDescriptorBufferInfo  bufferInfo;
-    };
+struct DVKSimulateTexture
+{
+	uint32              set = 0;
+	uint32              binding = 0;
+	VkDescriptorType    descriptorType = VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE;
+	VkShaderStageFlags  stageFlags = 0;
+	DVKTexture* texture = nullptr;
+};
 
-    struct DVKSimulateTexture
-    {
-        uint32              set = 0;
-        uint32              binding = 0;
-        VkDescriptorType    descriptorType = VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE;
-        VkShaderStageFlags  stageFlags = 0;
-        DVKTexture*         texture = nullptr;
-    };
+class DVKRingBuffer
+{
+public:
+	DVKRingBuffer()
+	{
 
-    class DVKRingBuffer
-    {
-    public:
-        DVKRingBuffer()
-        {
+	}
 
-        }
+	virtual ~DVKRingBuffer()
+	{
+		realBuffer->UnMap();
+		delete realBuffer;
+		realBuffer = nullptr;
+	}
 
-        virtual ~DVKRingBuffer()
-        {
-            realBuffer->UnMap();
-            delete realBuffer;
-            realBuffer = nullptr;
-        }
+	void* GetMappedPointer()
+	{
+		return realBuffer->mapped;
+	}
 
-        void* GetMappedPointer()
-        {
-            return realBuffer->mapped;
-        }
+	uint64 AllocateMemory(uint64 size)
+	{
+		uint64 allocationOffset = Align<uint64>(bufferOffset,minAlignment);
 
-        uint64 AllocateMemory(uint64 size)
-        {
-            uint64 allocationOffset = Align<uint64>(bufferOffset, minAlignment);
+		if(allocationOffset+size<=bufferSize)
+		{
+			bufferOffset = allocationOffset+size;
+			return allocationOffset;
+		}
 
-            if (allocationOffset + size <= bufferSize)
-            {
-                bufferOffset = allocationOffset + size;
-                return allocationOffset;
-            }
+		bufferOffset = 0;
+		return bufferOffset;
+	}
 
-            bufferOffset = 0;
-            return bufferOffset;
-        }
+public:
+	VkDevice        device = VK_NULL_HANDLE;
+	uint64          bufferSize = 0;
+	uint64          bufferOffset = 0;
+	uint32          minAlignment = 0;
+	DVKBuffer* realBuffer = nullptr;
+};
 
-    public:
-        VkDevice        device = VK_NULL_HANDLE;
-        uint64          bufferSize = 0;
-        uint64          bufferOffset = 0;
-        uint32          minAlignment = 0;
-        DVKBuffer*      realBuffer = nullptr;
-    };
+class DVKMaterial
+{
+private:
 
-    class DVKMaterial
-    {
-    private:
+	typedef std::unordered_map<std::string,DVKSimulateBuffer>      BuffersMap;
+	typedef std::unordered_map<std::string,DVKSimulateTexture>     TexturesMap;
+	typedef std::shared_ptr<VulkanDevice>                           VulkanDeviceRef;
 
-        typedef std::unordered_map<std::string, DVKSimulateBuffer>      BuffersMap;
-        typedef std::unordered_map<std::string, DVKSimulateTexture>     TexturesMap;
-        typedef std::shared_ptr<VulkanDevice>                           VulkanDeviceRef;
+	DVKMaterial()
+	{
 
-        DVKMaterial()
-        {
+	}
 
-        }
+public:
+	virtual ~DVKMaterial();
 
-    public:
-        virtual ~DVKMaterial();
+	static DVKMaterial* Create(std::shared_ptr<VulkanDevice> vulkanDevice,VkRenderPass renderPass,VkPipelineCache pipelineCache,DVKShader* shader);
 
-        static DVKMaterial* Create(std::shared_ptr<VulkanDevice> vulkanDevice, VkRenderPass renderPass, VkPipelineCache pipelineCache, DVKShader* shader);
+	static DVKMaterial* Create(std::shared_ptr<VulkanDevice> vulkanDevice,DVKRenderTarget* renderTarget,VkPipelineCache pipelineCache,DVKShader* shader);
 
-        static DVKMaterial* Create(std::shared_ptr<VulkanDevice> vulkanDevice, DVKRenderTarget* renderTarget, VkPipelineCache pipelineCache, DVKShader* shader);
+	void PreparePipeline();
 
-        void PreparePipeline();
+	void BeginObject();
 
-        void BeginObject();
+	void EndObject();
 
-        void EndObject();
+	void BeginFrame();
 
-        void BeginFrame();
+	void EndFrame();
 
-        void EndFrame();
+	void BindDescriptorSets(VkCommandBuffer commandBuffer,VkPipelineBindPoint bindPoint,int32 objIndex);
 
-        void BindDescriptorSets(VkCommandBuffer commandBuffer, VkPipelineBindPoint bindPoint, int32 objIndex);
+	void SetLocalUniform(const std::string& name,void* dataPtr,uint32 size);
 
-        void SetLocalUniform(const std::string& name, void* dataPtr, uint32 size);
+	void SetTexture(const std::string& name,DVKTexture* texture);
 
-        void SetTexture(const std::string& name, DVKTexture* texture);
+	void SetGlobalUniform(const std::string& name,void* dataPtr,uint32 size);
 
-        void SetGlobalUniform(const std::string& name, void* dataPtr, uint32 size);
+	void SetStorageBuffer(const std::string& name,DVKBuffer* buffer);
 
-        void SetStorageBuffer(const std::string& name, DVKBuffer* buffer);
+	void SetInputAttachment(const std::string& name,DVKTexture* texture);
 
-        void SetInputAttachment(const std::string& name, DVKTexture* texture);
+	FORCE_INLINE VkPipeline GetPipeline() const
+	{
+		return pipeline->pipeline;
+	}
 
-        FORCE_INLINE VkPipeline GetPipeline() const
-        {
-            return pipeline->pipeline;
-        }
+	FORCE_INLINE VkPipelineLayout GetPipelineLayout() const
+	{
+		return pipeline->pipelineLayout;
+	}
 
-        FORCE_INLINE VkPipelineLayout GetPipelineLayout() const
-        {
-            return pipeline->pipelineLayout;
-        }
+	FORCE_INLINE std::vector<VkDescriptorSet>& GetDescriptorSets() const
+	{
+		return descriptorSet->descriptorSets;
+	}
 
-        FORCE_INLINE std::vector<VkDescriptorSet>& GetDescriptorSets() const
-        {
-            return descriptorSet->descriptorSets;
-        }
+private:
+	static void InitRingBuffer(std::shared_ptr<VulkanDevice> vulkanDevice);
 
-    private:
-        static void InitRingBuffer(std::shared_ptr<VulkanDevice> vulkanDevice);
+	static void DestroyRingBuffer();
 
-        static void DestroyRingBuffer();
+	void Prepare();
 
-        void Prepare();
+private:
 
-    private:
+	static DVKRingBuffer* ringBuffer;
+	static int32            ringBufferRefCount;
 
-        static DVKRingBuffer*   ringBuffer;
-        static int32            ringBufferRefCount;
+public:
 
-    public:
+	VulkanDeviceRef         vulkanDevice = nullptr;
+	DVKShader* shader = nullptr;
 
-        VulkanDeviceRef         vulkanDevice = nullptr;
-        DVKShader*              shader = nullptr;
+	VkRenderPass            renderPass = VK_NULL_HANDLE;
+	VkPipelineCache         pipelineCache = VK_NULL_HANDLE;
 
-        VkRenderPass            renderPass = VK_NULL_HANDLE;
-        VkPipelineCache         pipelineCache = VK_NULL_HANDLE;
+	DVKGfxPipelineInfo      pipelineInfo;
+	DVKGfxPipeline* pipeline = nullptr;
+	DVKDescriptorSet* descriptorSet = nullptr;
 
-        DVKGfxPipelineInfo      pipelineInfo;
-        DVKGfxPipeline*         pipeline = nullptr;
-        DVKDescriptorSet*       descriptorSet = nullptr;
+	uint32                  dynamicOffsetCount;
+	std::vector<uint32>     globalOffsets;
+	std::vector<uint32>     dynamicOffsets;
+	std::vector<uint32>     perObjectIndexes;
 
-        uint32                  dynamicOffsetCount;
-        std::vector<uint32>     globalOffsets;
-        std::vector<uint32>     dynamicOffsets;
-        std::vector<uint32>     perObjectIndexes;
+	BuffersMap              uniformBuffers;
+	BuffersMap              storageBuffers;
+	TexturesMap             textures;
 
-        BuffersMap              uniformBuffers;
-        BuffersMap              storageBuffers;
-        TexturesMap             textures;
+	bool                    actived = false;
+};
 
-        bool                    actived = false;
-    };
-
-}

@@ -102,14 +102,14 @@ void ModuleBase::DestroyFences()
 
 void ModuleBase::CreateDefaultRes()
 {
-    vk_demo::DVKCommandBuffer* cmdbuffer = vk_demo::DVKCommandBuffer::Create(GetVulkanRHI()->GetDevice(), m_CommandPool);
-    vk_demo::DVKDefaultRes::Init(GetVulkanRHI()->GetDevice(), cmdbuffer);
+    DVKCommandBuffer* cmdbuffer = DVKCommandBuffer::Create(GetVulkanRHI()->GetDevice(), m_CommandPool);
+    DVKDefaultRes::Init(GetVulkanRHI()->GetDevice(), cmdbuffer);
     delete cmdbuffer;
 }
 
 void ModuleBase::DestroyDefaultRes()
 {
-    vk_demo::DVKDefaultRes::Destroy();
+    DVKDefaultRes::Destroy();
 }
 
 void ModuleBase::CreateCommandBuffers()

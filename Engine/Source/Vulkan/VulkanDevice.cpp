@@ -15,7 +15,6 @@ VulkanDevice::VulkanDevice(VkPhysicalDevice physicalDevice)
     , m_MemoryManager(nullptr)
 	, m_PhysicalDeviceFeatures2(nullptr)
 {
-    
 }
 
 VulkanDevice::~VulkanDevice()

@@ -136,9 +136,9 @@ private:
     std::shared_ptr<VulkanQueue>            m_TransferQueue;
     std::shared_ptr<VulkanQueue>            m_PresentQueue;
 
-    VulkanFenceManager*                     m_FenceManager;
-    VulkanDeviceMemoryManager*              m_MemoryManager;
+    VulkanFenceManager*                     m_FenceManager = nullptr;
+    VulkanDeviceMemoryManager*              m_MemoryManager=nullptr;
 
 	std::vector<const char*>				m_AppDeviceExtensions;
-	VkPhysicalDeviceFeatures2*				m_PhysicalDeviceFeatures2;
+	VkPhysicalDeviceFeatures2*				m_PhysicalDeviceFeatures2 = nullptr;
 };
