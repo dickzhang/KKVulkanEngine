@@ -94,7 +94,7 @@ void TriangleModule::SetupCommandBuffers()
 
 		VkViewport viewport = { };
 		viewport.x = 0;
-		viewport.y = m_FrameHeight;
+		viewport.y = (float)m_FrameHeight;
 		viewport.width = (float)m_FrameWidth;
 		viewport.height = -(float)m_FrameHeight;    // flip y axis
 		viewport.minDepth = 0.0f;
@@ -328,7 +328,7 @@ void TriangleModule::UpdateUniformBuffers(float time,float delta)
 
 void TriangleModule::CreateUniformBuffers()
 {
-	m_ViewCamera.Perspective(PI/4,GetWidth(),GetHeight(),0.1f,1000.0f);
+	m_ViewCamera.Perspective(PI/4.0,(float)GetWidth(),(float)GetHeight(),0.1f,1000.0f);
 	m_ViewCamera.SetPosition(0,0,-5.0f);
 	m_ViewCamera.LookAt(0,0,0);
 	auto memoryManager = m_VulkanDevice->GetMemoryManager();

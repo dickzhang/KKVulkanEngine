@@ -2,6 +2,7 @@
 
 #include "Configuration/Platform.h"
 #include <stdio.h>
+#define KK_ENGIEN_LOG "[KKEngineLog]: %s"
 
 #if PLATFORM_WINDOWS
     #include <Windows.h>

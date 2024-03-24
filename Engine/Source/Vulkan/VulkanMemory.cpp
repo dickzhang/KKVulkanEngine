@@ -134,6 +134,7 @@ void VulkanDeviceMemoryManager::Init(VulkanDevice* device)
 
 void VulkanDeviceMemoryManager::Destory()
 {
+    MLOG(KK_ENGIEN_LOG,"VulkanDeviceMemoryManager:Destory");
     for (int32 index = 0; index < m_HeapInfos.size(); ++index)
     {
         if (m_HeapInfos[index].allocations.size() > 0)

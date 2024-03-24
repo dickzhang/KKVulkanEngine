@@ -92,7 +92,7 @@ public:
     
     FORCE_INLINE VulkanDeviceMemoryManager* GetMemoryManager()
     {
-        MLOG("zkk============VulkanDeviceMemoryManager====");
+        MLOG(KK_ENGIEN_LOG,"GetMemoryManager");
         return m_MemoryManager;
     }
     
