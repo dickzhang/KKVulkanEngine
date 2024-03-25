@@ -200,7 +200,7 @@ set(WKEngine_Sources
 		)
 
 set(Examples_Source
-	${ROOT_PATH}/examples/2_Triangle_simple/Triangle.cpp
+	${ROOT_PATH}/examples/3_ImageGUI/GUIImage.cpp
 )
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序

@@ -7,7 +7,6 @@
  {
 	 DVKBuffer* dvkBuffer = new DVKBuffer();
 	 dvkBuffer->device = vulkanDevice->GetInstanceHandle();
-
 	 VkDevice vkDevice = vulkanDevice->GetInstanceHandle();
 
 	 uint32 memoryTypeIndex = 0;
