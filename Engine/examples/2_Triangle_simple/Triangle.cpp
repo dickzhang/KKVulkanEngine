@@ -32,7 +32,7 @@ bool TriangleModule::Init()
 	CreateDescriptorSetLayout();
 	CreateDescriptorSet();
 	CreatePipelines();
-	SetupCommandBuffers();
+	RecordCommandBuffers();
 
 	m_Ready = true;
 
@@ -67,7 +67,7 @@ void TriangleModule::Draw(float time,float delta)
 	ModuleBase::Present(bufferIndex);
 }
 
-void TriangleModule::SetupCommandBuffers()
+void TriangleModule::RecordCommandBuffers()
 {
 	VkCommandBufferBeginInfo cmdBeginInfo;
 	ZeroVulkanStruct(cmdBeginInfo,VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO);
@@ -331,7 +331,6 @@ void TriangleModule::CreateUniformBuffers()
 	m_ViewCamera.Perspective(PI/4.0,(float)GetWidth(),(float)GetHeight(),0.1f,1000.0f);
 	m_ViewCamera.SetPosition(0,0,-5.0f);
 	m_ViewCamera.LookAt(0,0,0);
-	auto memoryManager = m_VulkanDevice->GetMemoryManager();
 	m_MVPBuffer = DVKBuffer::CreateBuffer(m_VulkanDevice,
 		VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT|VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,

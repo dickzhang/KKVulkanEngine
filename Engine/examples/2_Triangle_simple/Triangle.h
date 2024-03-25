@@ -42,8 +42,8 @@ public:
 private:
 
     void Draw(float time,float delta);
-
-    void SetupCommandBuffers();
+    //录制流水线
+    void RecordCommandBuffers();
 
     void CreateDescriptorSet();
 
