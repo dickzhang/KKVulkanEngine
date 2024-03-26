@@ -12,10 +12,6 @@ layout (set = 0, binding = 0) uniform UBO
 
 layout (location = 0) out vec2 outUV0;
 
-out gl_PerVertex 
-{
-    vec4 gl_Position;   
-};
 
 void main() 
 {

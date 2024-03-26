@@ -200,7 +200,7 @@ set(WKEngine_Sources
 		)
 
 set(Examples_Source
-	${ROOT_PATH}/examples/4_UniformBuffer/UniformBufferTest.cpp
+	${ROOT_PATH}/examples/5_OptimizeVertexIndexBuffer/VertexIndexBuffer.cpp
 )
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序
