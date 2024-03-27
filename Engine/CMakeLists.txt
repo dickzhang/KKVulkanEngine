@@ -200,7 +200,7 @@ set(WKEngine_Sources
 		)
 
 set(Examples_Source
-	${ROOT_PATH}/examples/5_OptimizeVertexIndexBuffer/VertexIndexBuffer.cpp
+	${ROOT_PATH}/examples/6_LoadMesh/LoadMesh.cpp
 )
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序
