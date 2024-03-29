@@ -58,7 +58,6 @@ void LoadMesh::Draw(float time,float delta)
 bool LoadMesh::UpdateUI(float time,float delta)
 {
 	m_GUI->StartFrame();
-
 	{
 		ImGui::SetNextWindowPos(ImVec2(0,0));
 		ImGui::SetNextWindowSize(ImVec2(0,0),ImGuiSetCond_FirstUseEver);
