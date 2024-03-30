@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "DemoBase.h"
+#include "ModuleBase.h"
 #include "DVKBuffer.h"
 #include "DVKCommand.h"
 #include "DVKUtils.h"
@@ -15,5 +15,5 @@
 #include "DVKCamera.h"
 #include "DVKRenderTarget.h"
 #include "DVKCompute.h"
-#include "FileManager.h"
+#include "File/FileManager.h"
 #include "ImageGUIContext.h"
