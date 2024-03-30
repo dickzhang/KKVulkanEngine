@@ -200,7 +200,7 @@ set(WKEngine_Sources
 		)
 
 set(Examples_Source
-	${ROOT_PATH}/examples/8_Texture/TextureModule.cpp
+	${ROOT_PATH}/examples/9_PushConstants/PushConstants.cpp
 )
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序
