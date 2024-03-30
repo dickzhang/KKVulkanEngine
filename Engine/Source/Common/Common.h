@@ -29,3 +29,14 @@ typedef long                SSIZE_T;
     #define FORCE_INLINE inline
     #define CONSTEXPR constexpr
 #endif
+
+#define KK_DELETE(ptr,T) Delete(ptr)
+template <typename T>
+void Delete(T* ptr)
+{
+	if (ptr)
+	{
+		delete ptr;
+		ptr = nullptr;
+	}
+}
