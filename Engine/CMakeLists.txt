@@ -200,7 +200,7 @@ set(WKEngine_Sources
 		)
 
 set(Examples_Source
-	${ROOT_PATH}/examples/10_DynamicUniformBuffer/DynamicUniformBuffer.cpp
+	${ROOT_PATH}/examples/11_TextureArray/TextureArray.cpp
 )
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序
