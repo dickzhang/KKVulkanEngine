@@ -200,7 +200,8 @@ set(WKEngine_Sources
 		)
 
 set(Examples_Source
-	${ROOT_PATH}/examples/11_TextureArray/TextureArray.cpp
+	#${ROOT_PATH}/examples/11_TextureArray/TextureArray.cpp
+	${ROOT_PATH}/examples/12_Texture3D/Texture3D.cpp
 )
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序
