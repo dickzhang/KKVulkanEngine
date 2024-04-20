@@ -230,7 +230,8 @@ set(Examples_Source
 	#${ROOT_PATH}/examples/39_OptimizeComputeShader/OptimizeComputeShaderDemo.cpp
 	#${ROOT_PATH}/examples/41_ComputeRaytracing/ComputeRaytracingDemo.cpp
 	#${ROOT_PATH}/examples/42_ComputeFrustum/ComputeFrustumDemo.cpp
-	${ROOT_PATH}/examples/43_GeometryHouse/GeometryHouseDemo.cpp
+	#${ROOT_PATH}/examples/43_GeometryHouse/GeometryHouseDemo.cpp
+	${ROOT_PATH}/examples/44_DebugNormal/DebugNormalDemo.cpp
 )
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序
