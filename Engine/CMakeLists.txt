@@ -206,7 +206,8 @@ set(Examples_Source
 	#${ROOT_PATH}/examples/14_InputAttachments/InputAttachments.cpp
 	#${ROOT_PATH}/examples/15_DeferredShading/DeferredShading.cpp
 	#${ROOT_PATH}/examples/16_OptimizeDeferredShading/OptimizeDeferredShading.cpp
-	${ROOT_PATH}/examples/17_Material/MaterialDemo.cpp
+	#${ROOT_PATH}/examples/17_Material/MaterialDemo.cpp
+	${ROOT_PATH}/examples/18_Stencil/StencilDemo.cpp
 )
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序
