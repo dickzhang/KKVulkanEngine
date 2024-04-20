@@ -199,6 +199,16 @@ set(WKEngine_Sources
         ${PLATFORM_SOURCE}
 		)
 
+set(58_CPURayTracing_Source
+   ${ROOT_PATH}/examples/58_CPURayTracing/CPURayTracingDemo.cpp
+   ${ROOT_PATH}/examples/58_CPURayTracing/Material.cpp
+   ${ROOT_PATH}/examples/58_CPURayTracing/RayTracing.cpp
+   ${ROOT_PATH}/examples/58_CPURayTracing/RunnableThread.cpp
+   ${ROOT_PATH}/examples/58_CPURayTracing/TaskThread.cpp
+   ${ROOT_PATH}/examples/58_CPURayTracing/TaskThreadPool.cpp
+   ${ROOT_PATH}/examples/58_CPURayTracing/ThreadEvent.cpp
+   ${ROOT_PATH}/examples/58_CPURayTracing/ThreadManager.cpp
+)
 set(Examples_Source
 	#${ROOT_PATH}/examples/11_TextureArray/TextureArray.cpp
 	#${ROOT_PATH}/examples/12_Texture3D/Texture3D.cpp
@@ -244,8 +254,11 @@ set(Examples_Source
 	#${ROOT_PATH}/examples/54_GodRay/GodRayDemo.cpp
 	#${ROOT_PATH}/examples/55_Imposter/ImposterDemo.cpp
 	#${ROOT_PATH}/examples/56_MotionBlur/MotionBlurDemo.cpp
-	${ROOT_PATH}/examples/57_DepthPeeling/DepthPeelingDemo.cpp
+	#${ROOT_PATH}/examples/57_DepthPeeling/DepthPeelingDemo.cpp
+	${58_CPURayTracing_Source}
+
 )
+
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序
         set(EXE_TARGET WIN32)
