@@ -237,7 +237,8 @@ set(Examples_Source
 	#${ROOT_PATH}/examples/47_PNTessellation/PNTessellationDemo.cpp
 	#${ROOT_PATH}/examples/48_Pick/PickDemo.cpp
 	#${ROOT_PATH}/examples/49_HDRPipeline/HDRPipelineDemo.cpp
-	${ROOT_PATH}/examples/50_SSAO/SSAODemo.cpp
+	#${ROOT_PATH}/examples/50_SSAO/SSAODemo.cpp
+	${ROOT_PATH}/examples/51_ThreadedRendering/ThreadedRenderingDemo.cpp
 )
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序
