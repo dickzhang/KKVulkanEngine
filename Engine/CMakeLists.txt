@@ -263,7 +263,8 @@ set(Examples_Source
 	#${ROOT_PATH}/examples/63_RTXRayTracingHitGroup/RTXRayTracingHitGroupDemo.cpp
 	#${ROOT_PATH}/examples/64_RTXRayTracingMonteCarlo/RTXRayTracingMonteCarloDemo.cpp
 	#${ROOT_PATH}/examples/65_RTXPathTracing/RTXPathTracingDemo.cpp
-	${ROOT_PATH}/examples/66_TileBasedForwardRendering/TileBasedForwardRenderingDemo.cpp
+	#${ROOT_PATH}/examples/66_TileBasedForwardRendering/TileBasedForwardRenderingDemo.cpp
+	${ROOT_PATH}/examples/67_SDFFont/SDFFontDemo.cpp
 
 )
 
