@@ -222,7 +222,7 @@ set(Examples_Source
 	#${ROOT_PATH}/examples/30_InstanceDraw/InstanceDrawDemo.cpp
 	#${ROOT_PATH}/examples/31_SimpleShadow/SimpleShadowDemo.cpp
 	#${ROOT_PATH}/examples/32_PCFShadow/PCFShadowDemo.cpp
-	${ROOT_PATH}/examples/33_OmniShadow/OmniShadowDemo.cpp
+	${ROOT_PATH}/examples/34_CascadedShadow/CascadedShadowDemo.cpp
 )
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序
