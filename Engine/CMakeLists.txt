@@ -209,6 +209,26 @@ set(58_CPURayTracing_Source
    ${ROOT_PATH}/examples/58_CPURayTracing/ThreadEvent.cpp
    ${ROOT_PATH}/examples/58_CPURayTracing/ThreadManager.cpp
 )
+
+set(69_MeshLOD_Source
+   ${ROOT_PATH}/examples/69_MeshLOD/vfetchoptimizer.cpp
+   ${ROOT_PATH}/examples/69_MeshLOD/allocator.cpp
+   ${ROOT_PATH}/examples/69_MeshLOD/clusterizer.cpp
+   ${ROOT_PATH}/examples/69_MeshLOD/indexcodec.cpp
+   ${ROOT_PATH}/examples/69_MeshLOD/indexgenerator.cpp
+   ${ROOT_PATH}/examples/69_MeshLOD/MeshLodDemo.cpp
+   ${ROOT_PATH}/examples/69_MeshLOD/overdrawoptimizer.cpp
+   ${ROOT_PATH}/examples/69_MeshLOD/simplifier.cpp
+   ${ROOT_PATH}/examples/69_MeshLOD/spatialorder.cpp
+   ${ROOT_PATH}/examples/69_MeshLOD/stripifier.cpp
+   ${ROOT_PATH}/examples/69_MeshLOD/vcacheanalyzer.cpp
+   ${ROOT_PATH}/examples/69_MeshLOD/vcacheoptimizer.cpp
+   ${ROOT_PATH}/examples/69_MeshLOD/vertexcodec.cpp
+   ${ROOT_PATH}/examples/69_MeshLOD/vertexfilter.cpp
+   ${ROOT_PATH}/examples/69_MeshLOD/vfetchanalyzer.cpp
+   ${ROOT_PATH}/examples/69_MeshLOD/vfetchoptimizer.cpp
+)
+
 set(Examples_Source
 	#${ROOT_PATH}/examples/11_TextureArray/TextureArray.cpp
 	#${ROOT_PATH}/examples/12_Texture3D/Texture3D.cpp
@@ -264,7 +284,9 @@ set(Examples_Source
 	#${ROOT_PATH}/examples/64_RTXRayTracingMonteCarlo/RTXRayTracingMonteCarloDemo.cpp
 	#${ROOT_PATH}/examples/65_RTXPathTracing/RTXPathTracingDemo.cpp
 	#${ROOT_PATH}/examples/66_TileBasedForwardRendering/TileBasedForwardRenderingDemo.cpp
-	${ROOT_PATH}/examples/67_SDFFont/SDFFontDemo.cpp
+	#${ROOT_PATH}/examples/67_SDFFont/SDFFontDemo.cpp
+	#${ROOT_PATH}/examples/68_ShuffleIntrinsics/ShuffleIntrinsicsDemo.cpp
+	${69_MeshLOD_Source}
 
 )
 
