@@ -243,7 +243,8 @@ set(Examples_Source
 	#${ROOT_PATH}/examples/53_PBR_IBL/PBRIBLDemo.cpp
 	#${ROOT_PATH}/examples/54_GodRay/GodRayDemo.cpp
 	#${ROOT_PATH}/examples/55_Imposter/ImposterDemo.cpp
-	${ROOT_PATH}/examples/56_MotionBlur/MotionBlurDemo.cpp
+	#${ROOT_PATH}/examples/56_MotionBlur/MotionBlurDemo.cpp
+	${ROOT_PATH}/examples/57_DepthPeeling/DepthPeelingDemo.cpp
 )
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序
