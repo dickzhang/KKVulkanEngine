@@ -255,7 +255,8 @@ set(Examples_Source
 	#${ROOT_PATH}/examples/55_Imposter/ImposterDemo.cpp
 	#${ROOT_PATH}/examples/56_MotionBlur/MotionBlurDemo.cpp
 	#${ROOT_PATH}/examples/57_DepthPeeling/DepthPeelingDemo.cpp
-	${58_CPURayTracing_Source}
+	#${58_CPURayTracing_Source}
+	${ROOT_PATH}/examples/59_RTXRayTracingBasic/RTXRayTracingStartBasic.cpp
 
 )
 
