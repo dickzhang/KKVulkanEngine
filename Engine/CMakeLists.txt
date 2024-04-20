@@ -241,7 +241,8 @@ set(Examples_Source
 	#${ROOT_PATH}/examples/51_ThreadedRendering/ThreadedRenderingDemo.cpp
 	#${ROOT_PATH}/examples/52_PBR_DirectLighting/PBRDirectLightingDemo.cpp
 	#${ROOT_PATH}/examples/53_PBR_IBL/PBRIBLDemo.cpp
-	${ROOT_PATH}/examples/54_GodRay/GodRayDemo.cpp
+	#${ROOT_PATH}/examples/54_GodRay/GodRayDemo.cpp
+	${ROOT_PATH}/examples/55_Imposter/ImposterDemo.cpp
 )
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序
