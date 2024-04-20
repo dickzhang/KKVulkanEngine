@@ -210,7 +210,8 @@ set(Examples_Source
 	#${ROOT_PATH}/examples/18_Stencil/StencilDemo.cpp
 	#${ROOT_PATH}/examples/19_RenderTarget/RenderTargetDemo.cpp
 	#${ROOT_PATH}/examples/20_OptimizeRenderTarget/OptimizeRenderTarget.cpp
-	${ROOT_PATH}/examples/21_EdgeDetect/EdgeDetectDemo.cpp
+	#${ROOT_PATH}/examples/21_EdgeDetect/EdgeDetectDemo.cpp
+	${ROOT_PATH}/examples/22_Bloom/BloomDemo.cpp
 )
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序
