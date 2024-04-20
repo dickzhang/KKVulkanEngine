@@ -224,7 +224,8 @@ set(Examples_Source
 	#${ROOT_PATH}/examples/32_PCFShadow/PCFShadowDemo.cpp
 	#${ROOT_PATH}/examples/34_CascadedShadow/CascadedShadowDemo.cpp
 	#${ROOT_PATH}/examples/35_IndirectDraw/IndirectDrawDemo.cpp
-	${ROOT_PATH}/examples/36_OcclusionQueries/OcclusionQueryDemo.cpp
+	#${ROOT_PATH}/examples/36_OcclusionQueries/OcclusionQueryDemo.cpp
+	${ROOT_PATH}/examples/37_QueryStatistics/QueryStatisticsDemo.cpp
 )
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序
