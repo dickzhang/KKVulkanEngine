@@ -76,35 +76,35 @@ set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${PLATFORM_LINK_FLAG
 # AUTO_LOCATE_VULKAN - accepted value ON or OFF
 # ON  - Use CMake to auto locate the Vulkan SDK.
 # OFF - Vulkan SDK path can be specified manually. This is helpful to test the build on various Vulkan version.
-option(AUTO_LOCATE_VULKAN "AUTO_LOCATE_VULKAN" ON)
-
-if(AUTO_LOCATE_VULKAN)
-	message(STATUS "Attempting auto locate Vulkan using CMake......")
-	# Find Vulkan Path using CMake's Vulkan Module
-	# This will return Boolean 'Vulkan_FOUND' indicating the status of find as success(ON) or fail(OFF).
-	# Include directory path - 'Vulkan_INCLUDE_DIRS' and 'Vulkan_LIBRARY' with required libraries.
-	find_package(Vulkan)
-	
-	# Try extracting VulkanSDK path from ${Vulkan_INCLUDE_DIRS}
-	if (NOT ${Vulkan_INCLUDE_DIRS} STREQUAL "")
-		set(VULKAN_PATH ${Vulkan_INCLUDE_DIRS})
-		STRING(REGEX REPLACE "/Include" "" VULKAN_PATH ${VULKAN_PATH})
-	endif()
-	
-	if(NOT Vulkan_FOUND)
-		# CMake may fail to locate the libraries but could be able to 
-		# provide some path in Vulkan SDK include directory variable
-		# 'Vulkan_INCLUDE_DIRS', try to extract path from this.
-		message(STATUS "Failed to locate Vulkan SDK, retrying again...")
-		if(EXISTS "${VULKAN_PATH}")
-			message(STATUS "Successfully located the Vulkan SDK: ${VULKAN_PATH}")
-		else()
-			message("Error: Unable to locate Vulkan SDK. Please turn off auto locate option by specifying 'AUTO_LOCATE_VULKAN' as 'OFF'")
-			message("and specify manually path using 'VULKAN_SDK' and 'VULKAN_VERSION' variables in the CMakeLists.txt.")
-			return()
-		endif()
-	endif()
-endif()
+#option(AUTO_LOCATE_VULKAN "AUTO_LOCATE_VULKAN" OFF)
+#
+#if(AUTO_LOCATE_VULKAN)
+#	message(STATUS "Attempting auto locate Vulkan using CMake......")
+#	# Find Vulkan Path using CMake's Vulkan Module
+#	# This will return Boolean 'Vulkan_FOUND' indicating the status of find as success(ON) or fail(OFF).
+#	# Include directory path - 'Vulkan_INCLUDE_DIRS' and 'Vulkan_LIBRARY' with required libraries.
+#	find_package(Vulkan)
+#	
+#	# Try extracting VulkanSDK path from ${Vulkan_INCLUDE_DIRS}
+#	if (NOT ${Vulkan_INCLUDE_DIRS} STREQUAL "")
+#		set(VULKAN_PATH ${Vulkan_INCLUDE_DIRS})
+#		STRING(REGEX REPLACE "/Include" "" VULKAN_PATH ${VULKAN_PATH})
+#	endif()
+#	
+#	if(NOT Vulkan_FOUND)
+#		# CMake may fail to locate the libraries but could be able to 
+#		# provide some path in Vulkan SDK include directory variable
+#		# 'Vulkan_INCLUDE_DIRS', try to extract path from this.
+#		message(STATUS "Failed to locate Vulkan SDK, retrying again...")
+#		if(EXISTS "${VULKAN_PATH}")
+#			message(STATUS "Successfully located the Vulkan SDK: ${VULKAN_PATH}")
+#		else()
+#			message("Error: Unable to locate Vulkan SDK. Please turn off auto locate option by specifying 'AUTO_LOCATE_VULKAN' as 'OFF'")
+#			message("and specify manually path using 'VULKAN_SDK' and 'VULKAN_VERSION' variables in the CMakeLists.txt.")
+#			return()
+#		endif()
+#	endif()
+#endif()
 
 # BUILD_SPV_ON_COMPILE_TIME - accepted value ON or OFF, default value OFF.
 # ON  - Reads the GLSL shader file and auto convert in SPIR-V form (.spv). 
@@ -113,7 +113,7 @@ endif()
 # OFF - Only reads .spv files, which need to be compiled offline 
 #			using glslangValidator.exe.
 # For example: glslangValidator.exe <GLSL file name> -V -o <output filename in SPIR-V(.spv) form>
-option(BUILD_SPV_ON_COMPILE_TIME "BUILD_SPV_ON_COMPILE_TIME" OFF)
+#option(BUILD_SPV_ON_COMPILE_TIME "BUILD_SPV_ON_COMPILE_TIME" OFF)
 
 # Add any required preprocessor definitions here
 add_definitions(-DVK_USE_PLATFORM_WIN32_KHR)
@@ -225,7 +225,8 @@ set(Examples_Source
 	#${ROOT_PATH}/examples/34_CascadedShadow/CascadedShadowDemo.cpp
 	#${ROOT_PATH}/examples/35_IndirectDraw/IndirectDrawDemo.cpp
 	#${ROOT_PATH}/examples/36_OcclusionQueries/OcclusionQueryDemo.cpp
-	${ROOT_PATH}/examples/37_QueryStatistics/QueryStatisticsDemo.cpp
+	#${ROOT_PATH}/examples/37_QueryStatistics/QueryStatisticsDemo.cpp
+	${ROOT_PATH}/examples/38_ComputeShader/ComputeShaderDemo.cpp
 )
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序

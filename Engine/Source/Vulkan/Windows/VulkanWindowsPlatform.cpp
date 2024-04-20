@@ -1,8 +1,6 @@
 ﻿#include "Configuration/Platform.h"
 #include "Application/Application.h"
-
 #include "Engine.h"
-
 #include "Vulkan/Windows/VulkanPlatformDefines.h"
 #include "Vulkan/VulkanRHI.h"
 #include "Vulkan/VulkanGlobals.h"

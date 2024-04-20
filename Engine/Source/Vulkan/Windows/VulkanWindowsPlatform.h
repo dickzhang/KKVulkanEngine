@@ -4,7 +4,6 @@
 
 #include <vector>
 #include <vulkan/vulkan.h>
-
 #include "Common/Common.h"
 #include "Vulkan/VulkanGenericPlatform.h"
 
