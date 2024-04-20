@@ -257,7 +257,8 @@ set(Examples_Source
 	#${ROOT_PATH}/examples/57_DepthPeeling/DepthPeelingDemo.cpp
 	#${58_CPURayTracing_Source}
 	#${ROOT_PATH}/examples/59_RTXRayTracingBasic/RTXRayTracingStartBasic.cpp
-	${ROOT_PATH}/examples/60_RTXRayTracingMesh/RTXRayTracingMeshDemo.cpp
+	#${ROOT_PATH}/examples/60_RTXRayTracingMesh/RTXRayTracingMeshDemo.cpp
+	${ROOT_PATH}/examples/61_RTXRayTracingSimple/RTXRayTracingSimpleDemo.cpp
 
 )
 
