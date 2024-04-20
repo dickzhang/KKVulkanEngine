@@ -6,7 +6,7 @@
 #include "Math/Matrix4x4.h"
 #include "Loader/ImageLoader.h"
 #include <vector>
-#define INSTANCE_COUNT 8000
+
 class MSAADemo :public ModuleBase
 {
 public:
