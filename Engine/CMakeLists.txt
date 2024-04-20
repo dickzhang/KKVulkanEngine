@@ -261,7 +261,8 @@ set(Examples_Source
 	#${ROOT_PATH}/examples/61_RTXRayTracingSimple/RTXRayTracingSimpleDemo.cpp
 	#${ROOT_PATH}/examples/62_RTXRayTracingReflection/RTXRayTracingReflectionDemo.cpp
 	#${ROOT_PATH}/examples/63_RTXRayTracingHitGroup/RTXRayTracingHitGroupDemo.cpp
-	${ROOT_PATH}/examples/64_RTXRayTracingMonteCarlo/RTXRayTracingMonteCarloDemo.cpp
+	#${ROOT_PATH}/examples/64_RTXRayTracingMonteCarlo/RTXRayTracingMonteCarloDemo.cpp
+	${ROOT_PATH}/examples/65_RTXPathTracing/RTXPathTracingDemo.cpp
 
 )
 
