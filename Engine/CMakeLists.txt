@@ -216,7 +216,8 @@ set(Examples_Source
 	#${ROOT_PATH}/examples/24_SkeletonPackIndexWeight/SkeletonPackIndexWeightDemo.cpp
 	#${ROOT_PATH}/examples/25_SkeletonQuat/SkeletonQuatDemo.cpp
 	#${ROOT_PATH}/examples/26_SkinInTexture/SkinInTextureDemo.cpp
-	${ROOT_PATH}/examples/27_SkinInstance/SkinInstanceDemo.cpp
+	#${ROOT_PATH}/examples/27_SkinInstance/SkinInstanceDemo.cpp
+	${ROOT_PATH}/examples/28_MSAA/MSAADemo.cpp
 )
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序
