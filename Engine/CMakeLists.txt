@@ -234,7 +234,8 @@ set(Examples_Source
 	#${ROOT_PATH}/examples/44_DebugNormal/DebugNormalDemo.cpp
 	#${ROOT_PATH}/examples/45_GeometryOmniShadow/GeometryOmniShadowDemo.cpp
 	#${ROOT_PATH}/examples/46_SimpleTessellation/SimpleTessellationDemo.cpp
-	${ROOT_PATH}/examples/47_PNTessellation/PNTessellationDemo.cpp
+	#${ROOT_PATH}/examples/47_PNTessellation/PNTessellationDemo.cpp
+	${ROOT_PATH}/examples/48_Pick/PickDemo.cpp
 )
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序
