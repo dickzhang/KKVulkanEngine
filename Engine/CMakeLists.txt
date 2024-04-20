@@ -212,7 +212,8 @@ set(Examples_Source
 	#${ROOT_PATH}/examples/20_OptimizeRenderTarget/OptimizeRenderTarget.cpp
 	#${ROOT_PATH}/examples/21_EdgeDetect/EdgeDetectDemo.cpp
 	#${ROOT_PATH}/examples/22_Bloom/BloomDemo.cpp
-	${ROOT_PATH}/examples/23_SkeletonMatrix4x4/SkeletonMatrix4x4Demo.cpp
+	#${ROOT_PATH}/examples/23_SkeletonMatrix4x4/SkeletonMatrix4x4Demo.cpp
+	${ROOT_PATH}/examples/24_SkeletonPackIndexWeight/SkeletonPackIndexWeightDemo.cpp
 )
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序
