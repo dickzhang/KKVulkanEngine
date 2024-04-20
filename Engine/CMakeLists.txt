@@ -226,7 +226,8 @@ set(Examples_Source
 	#${ROOT_PATH}/examples/35_IndirectDraw/IndirectDrawDemo.cpp
 	#${ROOT_PATH}/examples/36_OcclusionQueries/OcclusionQueryDemo.cpp
 	#${ROOT_PATH}/examples/37_QueryStatistics/QueryStatisticsDemo.cpp
-	${ROOT_PATH}/examples/38_ComputeShader/ComputeShaderDemo.cpp
+	#${ROOT_PATH}/examples/38_ComputeShader/ComputeShaderDemo.cpp
+	${ROOT_PATH}/examples/39_OptimizeComputeShader/OptimizeComputeShaderDemo.cpp
 )
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序
