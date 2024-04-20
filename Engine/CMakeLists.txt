@@ -204,7 +204,8 @@ set(Examples_Source
 	#${ROOT_PATH}/examples/12_Texture3D/Texture3D.cpp
 	#${ROOT_PATH}/examples/13_OptimizeShaderAndLayout/OptimizeShaderAndLayout.cpp
 	#${ROOT_PATH}/examples/14_InputAttachments/InputAttachments.cpp
-	${ROOT_PATH}/examples/15_DeferredShading/DeferredShading.cpp
+	#${ROOT_PATH}/examples/15_DeferredShading/DeferredShading.cpp
+	${ROOT_PATH}/examples/16_OptimizeDeferredShading/OptimizeDeferredShading.cpp
 )
 if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         #指定为桌面程序
