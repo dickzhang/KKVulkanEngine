@@ -1,0 +1,55 @@
+#version 450
+
+struct Particle
+{
+	vec4 position;
+	vec4 velocity;
+};
+
+layout(std140, binding = 0) buffer Vertex 
+{
+	Particle particles[ ];
+} inVertex;
+
+layout (binding = 1) uniform ParticleParam 
+{
+	vec4 data0;
+	vec4 data1;
+} param;
+
+layout (local_size_x = 32, local_size_y = 32, local_size_z = 1) in;
+
+void main() 
+{
+    uint globalIndex = gl_WorkGroupID.z * gl_NumWorkGroups.x * gl_NumWorkGroups.y + gl_WorkGroupID.y * gl_NumWorkGroups.x + gl_WorkGroupID.x;
+	globalIndex = globalIndex * gl_WorkGroupSize.x * gl_WorkGroupSize.y * gl_WorkGroupSize.z;
+	globalIndex = globalIndex + gl_LocalInvocationIndex;
+
+	if (globalIndex >= param.data0.w) {
+		return;
+	}
+
+	float drag = param.data1.z;
+  	float ease = param.data1.w;
+	float thickness = param.data0.z;
+
+	vec4 vPos = inVertex.particles[globalIndex].position;
+	vec4 vVel = inVertex.particles[globalIndex].velocity;
+
+	float dx = param.data0.x - vPos.x;
+	float dy = param.data0.y - vPos.y;
+    float dist = -thickness / (dx * dx + dy * dy);
+	
+    float t = atan(dy, dx);
+	vVel.x += dist * cos(t);
+	vVel.y += dist * sin(t);
+
+	vVel.x *= drag;
+	vVel.y *= drag;
+
+    vPos.x += (vVel.x + (vPos.z - vPos.x) * ease);
+    vPos.y += (vVel.y + (vPos.w - vPos.y) * ease);
+	
+	inVertex.particles[globalIndex].position = vPos;
+	inVertex.particles[globalIndex].velocity = vVel;
+}
