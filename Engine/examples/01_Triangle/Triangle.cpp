@@ -239,7 +239,7 @@ void TriangleModule::CreateDepthStencil()
 	VkMemoryRequirements memRequire;
 	vkGetImageMemoryRequirements(device,imageViewCreateInfo.image,&memRequire);
 	uint32 memoryTypeIndex = 0;
-	VERIFYVULKANRESULT(GetVulkanRHI()->GetDevice()->GetMemoryManager().GetMemoryTypeFromProperties(memRequire.memoryTypeBits,VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,&memoryTypeIndex));
+	VERIFYVULKANRESULT(GetVulkanRHI()->GetDevice()->GetMemoryManager()->GetMemoryTypeFromProperties(memRequire.memoryTypeBits,VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,&memoryTypeIndex));
 
 	VkMemoryAllocateInfo memAllocateInfo;
 	ZeroVulkanStruct(memAllocateInfo,VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO);
@@ -630,7 +630,7 @@ void TriangleModule::CreateUniformBuffers()
 	VkMemoryRequirements memReqInfo;
 	vkGetBufferMemoryRequirements(device,m_MVPBuffer.buffer,&memReqInfo);
 	uint32 memoryTypeIndex = 0;
-	GetVulkanRHI()->GetDevice()->GetMemoryManager().GetMemoryTypeFromProperties(memReqInfo.memoryTypeBits,VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT|VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,&memoryTypeIndex);
+	GetVulkanRHI()->GetDevice()->GetMemoryManager()->GetMemoryTypeFromProperties(memReqInfo.memoryTypeBits,VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT|VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,&memoryTypeIndex);
 
 	VkMemoryAllocateInfo allocInfo;
 	ZeroVulkanStruct(allocInfo,VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO);
@@ -709,7 +709,7 @@ void TriangleModule::CreateMeshBuffers()
 
 	vkGetBufferMemoryRequirements(device,tempVertexBuffer.buffer,&memReqInfo);
 	uint32 memoryTypeIndex = 0;
-	GetVulkanRHI()->GetDevice()->GetMemoryManager().GetMemoryTypeFromProperties(memReqInfo.memoryTypeBits,VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT|VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,&memoryTypeIndex);
+	GetVulkanRHI()->GetDevice()->GetMemoryManager()->GetMemoryTypeFromProperties(memReqInfo.memoryTypeBits,VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT|VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,&memoryTypeIndex);
 	memAllocInfo.allocationSize = memReqInfo.size;
 	memAllocInfo.memoryTypeIndex = memoryTypeIndex;
 	VERIFYVULKANRESULT(vkAllocateMemory(device,&memAllocInfo,VULKAN_CPU_ALLOCATOR,&tempVertexBuffer.memory));
@@ -724,7 +724,7 @@ void TriangleModule::CreateMeshBuffers()
 	VERIFYVULKANRESULT(vkCreateBuffer(device,&vertexBufferInfo,VULKAN_CPU_ALLOCATOR,&m_VertexBuffer.buffer));
 
 	vkGetBufferMemoryRequirements(device,m_VertexBuffer.buffer,&memReqInfo);
-	GetVulkanRHI()->GetDevice()->GetMemoryManager().GetMemoryTypeFromProperties(memReqInfo.memoryTypeBits,VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,&memoryTypeIndex);
+	GetVulkanRHI()->GetDevice()->GetMemoryManager()->GetMemoryTypeFromProperties(memReqInfo.memoryTypeBits,VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,&memoryTypeIndex);
 	memAllocInfo.allocationSize = memReqInfo.size;
 	memAllocInfo.memoryTypeIndex = memoryTypeIndex;
 	VERIFYVULKANRESULT(vkAllocateMemory(device,&memAllocInfo,VULKAN_CPU_ALLOCATOR,&m_VertexBuffer.memory));
@@ -738,7 +738,7 @@ void TriangleModule::CreateMeshBuffers()
 	VERIFYVULKANRESULT(vkCreateBuffer(device,&indexBufferInfo,VULKAN_CPU_ALLOCATOR,&tempIndexBuffer.buffer));
 
 	vkGetBufferMemoryRequirements(device,tempIndexBuffer.buffer,&memReqInfo);
-	GetVulkanRHI()->GetDevice()->GetMemoryManager().GetMemoryTypeFromProperties(memReqInfo.memoryTypeBits,VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT|VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,&memoryTypeIndex);
+	GetVulkanRHI()->GetDevice()->GetMemoryManager()->GetMemoryTypeFromProperties(memReqInfo.memoryTypeBits,VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT|VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,&memoryTypeIndex);
 	memAllocInfo.allocationSize = memReqInfo.size;
 	memAllocInfo.memoryTypeIndex = memoryTypeIndex;
 	VERIFYVULKANRESULT(vkAllocateMemory(device,&memAllocInfo,VULKAN_CPU_ALLOCATOR,&tempIndexBuffer.memory));
@@ -752,7 +752,7 @@ void TriangleModule::CreateMeshBuffers()
 	VERIFYVULKANRESULT(vkCreateBuffer(device,&indexBufferInfo,VULKAN_CPU_ALLOCATOR,&m_IndicesBuffer.buffer));
 
 	vkGetBufferMemoryRequirements(device,m_IndicesBuffer.buffer,&memReqInfo);
-	GetVulkanRHI()->GetDevice()->GetMemoryManager().GetMemoryTypeFromProperties(memReqInfo.memoryTypeBits,VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,&memoryTypeIndex);
+	GetVulkanRHI()->GetDevice()->GetMemoryManager()->GetMemoryTypeFromProperties(memReqInfo.memoryTypeBits,VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,&memoryTypeIndex);
 	memAllocInfo.allocationSize = memReqInfo.size;
 	memAllocInfo.memoryTypeIndex = memoryTypeIndex;
 	VERIFYVULKANRESULT(vkAllocateMemory(device,&memAllocInfo,VULKAN_CPU_ALLOCATOR,&m_IndicesBuffer.memory));

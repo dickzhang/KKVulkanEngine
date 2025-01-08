@@ -156,7 +156,7 @@ add_definitions(-DVK_USE_PLATFORM_WIN32_KHR)
 #	endif()
 #endif()
 
-set(WKEngine_Sources
+set(KKEngine_Sources
 		${ENGINE_SOURCE_DIR}/Graphics/ModuleBase.cpp
 		${ENGINE_SOURCE_DIR}/Graphics/DVKBuffer.cpp
 		${ENGINE_SOURCE_DIR}/Graphics/DVKCommand.cpp
@@ -230,6 +230,16 @@ set(69_MeshLOD_Source
 )
 
 set(Examples_Source
+	${ROOT_PATH}/examples/01_Triangle/Triangle.cpp
+	#${ROOT_PATH}/examples/02_Triangle_simple/Triangle.cpp
+	#${ROOT_PATH}/examples/03_ImageGUI/GUIImage.cpp
+	#${ROOT_PATH}/examples/04_UniformBuffer/UniformBufferTest.cpp
+	#${ROOT_PATH}/examples/05_OptimizeVertexIndexBuffer/VertexIndexBuffer.cpp
+	#${ROOT_PATH}/examples/06_LoadMesh/LoadMesh.cpp
+	#${ROOT_PATH}/examples/07_PipeLines/Pipelines.cpp
+	#${ROOT_PATH}/examples/08_Texture/TextureModule.cpp
+	#${ROOT_PATH}/examples/09_PushConstants/PushConstants.cpp
+	#${ROOT_PATH}/examples/10_DynamicUniformBuffer/DynamicUniformBuffer.cpp
 	#${ROOT_PATH}/examples/11_TextureArray/TextureArray.cpp
 	#${ROOT_PATH}/examples/12_Texture3D/Texture3D.cpp
 	#${ROOT_PATH}/examples/13_OptimizeShaderAndLayout/OptimizeShaderAndLayout.cpp
@@ -286,7 +296,7 @@ set(Examples_Source
 	#${ROOT_PATH}/examples/66_TileBasedForwardRendering/TileBasedForwardRenderingDemo.cpp
 	#${ROOT_PATH}/examples/67_SDFFont/SDFFontDemo.cpp
 	#${ROOT_PATH}/examples/68_ShuffleIntrinsics/ShuffleIntrinsicsDemo.cpp
-	${69_MeshLOD_Source}
+	#${69_MeshLOD_Source}
 
 )
 
@@ -295,12 +305,12 @@ if("${ENGINE_TARGET_OS}" STREQUAL "windows")
         set(EXE_TARGET WIN32)
 endif()
 
-add_executable(WKEngine ${EXE_TARGET} ${WKEngine_Sources} ${PLATFORM_SOURCE} ${Examples_Source})
+add_executable(KKEngine ${EXE_TARGET} ${KKEngine_Sources} ${PLATFORM_SOURCE} ${Examples_Source})
 
 message("ENGINE_THIRDPARTY_DIR: " ${ENGINE_THIRDPARTY_DIR})
 message("ENGINE_INCLUDE_DIR: " ${ENGINE_INCLUDE_DIR})
 
-target_include_directories(WKEngine
+target_include_directories(KKEngine
         PUBLIC
 		${ENGINE_DIR}
         ${ENGINE_INCLUDE_DIR}/gli/
@@ -308,4 +318,4 @@ target_include_directories(WKEngine
 		${PLATFORM_INCLUDES}
 )
 # Link the debug and release libraries to the project
-target_link_libraries( WKEngine PUBLIC ${ENGINE_LINK_LIBS} ${VULKAN_LIB_LINK_LIST} ${ALL_LIBS})
+target_link_libraries( KKEngine PUBLIC ${ENGINE_LINK_LIBS} ${VULKAN_LIB_LINK_LIST} ${ALL_LIBS})
